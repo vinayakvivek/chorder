@@ -1,18 +1,16 @@
-import { Box, Button, Divider, Grid, IconButton, makeStyles, TextField } from '@material-ui/core';
-import React, { Fragment, useEffect } from 'react';
+import { Box, Divider, Grid, IconButton, makeStyles, TextField } from '@material-ui/core';
+import React, { Fragment } from 'react';
 import { useStores } from '../hooks/store';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { Chord, ChordType } from '../models/chord';
-import { observer } from 'mobx-react';
 import { Bar, Line } from '../models/song';
 import { AddCircle, RemoveCircle } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
-  paper: {
-    padding: theme.spacing(0),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  },
+  barButton: {
+    width: "15px",
+    height: "15px",
+  }
 }));
 
 interface ChordBoxProps {
@@ -48,6 +46,7 @@ interface BarBoxProps {
 
 export const BarBox = ({ bar }: BarBoxProps) => {
   const store = useStores().serviceStore;
+  const classes = useStyles();
 
   const addChord = () => {
     bar.addChord(new Chord(0, ChordType.empty));
@@ -60,7 +59,7 @@ export const BarBox = ({ bar }: BarBoxProps) => {
   }
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} direction="row">
       {
         bar.chords.map((chord, index) => (
           <Grid item key={index}>
@@ -69,15 +68,17 @@ export const BarBox = ({ bar }: BarBoxProps) => {
         ))
       }
       <Grid item>
-        <IconButton aria-label="add-chord" size="small" onClick={addChord}>
-          <AddCircle />
-        </IconButton>
-        {
-          bar.chords.length > 1 &&
-          <IconButton aria-label="remove-chord" size="small" onClick={removeChord}>
-            <RemoveCircle />
+        <Grid container direction="column">
+          <IconButton aria-label="add-chord" size="small" onClick={addChord}>
+            <AddCircle className={classes.barButton}/>
           </IconButton>
-        }
+          {
+            bar.chords.length > 1 &&
+            <IconButton aria-label="remove-chord" size="small" color="secondary" onClick={removeChord}>
+              <RemoveCircle className={classes.barButton}/>
+            </IconButton>
+          }
+        </Grid>
       </Grid>
     </Grid>
   );
@@ -128,12 +129,12 @@ export const LineBox = ({ line }: LineBoxProps) => {
         ))
       }
       <Grid item>
-        <IconButton aria-label="add-bar" onClick={addBar}>
+        <IconButton aria-label="add-bar" size="small" onClick={addBar}>
           <AddCircle />
         </IconButton>
         {
           line.bars.length > 0 &&
-          <IconButton aria-label="remove-bar" onClick={removeBar}>
+          <IconButton aria-label="remove-bar" size="small" color="secondary" onClick={removeBar}>
             <RemoveCircle />
           </IconButton>
         }

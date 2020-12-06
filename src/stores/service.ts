@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx';
 import { Chord, ChordType, createAllChords } from '../models/chord';
-import { Bar, Line } from '../models/song';
+import { Bar, Line, Song } from '../models/song';
 
 class ServiceStore {
 
@@ -8,7 +8,7 @@ class ServiceStore {
 
   allChords: Chord[] = [];
 
-  sampleLine: Line;
+  song: Song;
 
   refreshCounter: number = 0;
 
@@ -25,7 +25,8 @@ class ServiceStore {
       new Chord(0, ChordType.major),
       new Chord(6, ChordType.minor),
     ]);
-    this.sampleLine = new Line([ sampleBar, sampleBar2 ], 1);
+    const sampleLine = new Line([ sampleBar, sampleBar2 ], 1);
+    this.song = new Song("Test", [sampleLine])
   }
 
   setId(id: string) {
