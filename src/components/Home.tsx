@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import React from "react";
 import { useStores } from '../hooks/store';
 import { Line } from '../models/song';
-import { LineBox } from './Bar';
+import { LineBox } from './Line';
 
 const useStyles = makeStyles((theme) => ({
   root: {

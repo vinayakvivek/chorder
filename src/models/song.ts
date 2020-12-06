@@ -21,10 +21,15 @@ export class Line {
 
   bars: Bar[] = [];
   repeatCount: number = 0;
+  lyrics: string = '';
 
   constructor(bars: Bar[], repeatCount: number) {
     this.bars = bars;
     this.repeatCount = repeatCount;
+  }
+
+  setLyrics(text: string) {
+    this.lyrics = text;
   }
 
   addBar(bar: Bar) {
