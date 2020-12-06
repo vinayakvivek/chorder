@@ -1,51 +1,22 @@
-import { Box, Container, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
+import { Box, Container, Grid, makeStyles, Typography } from '@material-ui/core';
 import { observer } from 'mobx-react';
 import React from "react";
-import { Chord, ChordType } from '../models/chord';
+import { useStores } from '../hooks/store';
+import { BarBox } from './Bar';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-  },
-  paper: {
-    padding: theme.spacing(2),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  },
+  }
 }));
-
-const Line = () => {
-  const chords = [
-    new Chord(0, ChordType.major),
-    new Chord(3, ChordType.major),
-    new Chord(4, ChordType.minor),
-    new Chord(0, ChordType.empty),
-  ]
-
-  const renderChords = () => (
-    chords.map((chord, index) => (
-      <span key={index}>{chord.isEmpty ? '' : chord.label} |</span>
-    ))
-  )
-
-  return (
-    <div className='line'>
-      || { renderChords()} ||
-    </div>
-  )
-}
 
 const Song = () => {
   const classes = useStyles();
+  const store = useStores().serviceStore;
   return (
     <Box>
       <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <Paper className={classes.paper}>xs=12</Paper>
-        </Grid>
-        <Grid item xs={6}>
-          <Paper className={classes.paper}>xs=6</Paper>
-        </Grid>
+        <BarBox bar={store.sampleBar}/>
       </Grid>
     </Box>
   )

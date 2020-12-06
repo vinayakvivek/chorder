@@ -19,6 +19,21 @@ export class Chord {
     this.type = type;
     this.label = `${CHORD_BASES[base]}${type}`;
     this.isEmpty = type === ChordType.empty;
+    if (this.isEmpty) {
+      this.label = '-';
+    }
+  }
+
+  copyFrom(other: Chord) {
+    this.base = other.base;
+    this.type = other.type;
+    this.label = other.label;
+    this.isEmpty = other.isEmpty;
+  }
+
+  equals(other: Chord) {
+    return this.isEmpty === other.isEmpty ||
+        (this.base === other.base && this.type === other.type);
   }
 }
 
@@ -28,5 +43,6 @@ export const createAllChords = () => {
     chords.push(new Chord(b, ChordType.major));
     chords.push(new Chord(b, ChordType.minor));
   }
+  chords.push(new Chord(0, ChordType.empty));
   return chords;
 }
