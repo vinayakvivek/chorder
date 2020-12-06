@@ -7,6 +7,14 @@ export class Bar {
   constructor(chords: Chord[]) {
     this.chords = chords;
   }
+
+  addChord(chord: Chord) {
+    this.chords.push(chord);
+  }
+
+  removeLastChord() {
+    this.chords.pop();
+  }
 }
 
 export class Line {
@@ -21,6 +29,10 @@ export class Line {
 
   addBar(bar: Bar) {
     this.bars.push(bar);
+  }
+
+  removeLastBar() {
+    this.bars.pop();
   }
 
   removeBar(index: number) {

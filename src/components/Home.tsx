@@ -1,4 +1,4 @@
-import { Box, Container, Grid, makeStyles, Typography } from '@material-ui/core';
+import { Box, Button, Container, Grid, makeStyles, Typography } from '@material-ui/core';
 import { observer } from 'mobx-react';
 import React from "react";
 import { useStores } from '../hooks/store';
@@ -10,17 +10,18 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Song = () => {
+const Song = observer(() => {
   const classes = useStyles();
   const store = useStores().serviceStore;
   return (
     <Box>
       <Grid container spacing={3}>
+        <span style={{display: "none"}}>{store.refreshCounter}</span>
         <LineBox line={store.sampleLine}/>
       </Grid>
     </Box>
   )
-}
+});
 
 const Home = () => {
   const classes = useStyles();

@@ -1,19 +1,19 @@
-import { action, observable } from 'mobx';
+import { makeAutoObservable } from 'mobx';
 import { Chord, ChordType, createAllChords } from '../models/chord';
 import { Bar, Line } from '../models/song';
 
 class ServiceStore {
 
-  @observable
   id: string = '';
 
-  @observable
   allChords: Chord[] = [];
 
-  @observable
   sampleLine: Line;
 
+  refreshCounter: number = 0;
+
   constructor() {
+    makeAutoObservable(this);
     this.allChords = createAllChords();
     const sampleBar = new Bar([
       new Chord(0, ChordType.major),
@@ -28,9 +28,12 @@ class ServiceStore {
     this.sampleLine = new Line([ sampleBar, sampleBar2 ], 1);
   }
 
-  @action
   setId(id: string) {
     this.id = id;
+  }
+
+  refresh() {
+    this.refreshCounter++;
   }
 }
 
