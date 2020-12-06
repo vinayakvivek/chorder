@@ -2,7 +2,7 @@ import { Box, Container, Grid, makeStyles, Typography } from '@material-ui/core'
 import { observer } from 'mobx-react';
 import React from "react";
 import { useStores } from '../hooks/store';
-import { BarBox } from './Bar';
+import { LineBox } from './Bar';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,7 +16,7 @@ const Song = () => {
   return (
     <Box>
       <Grid container spacing={3}>
-        <BarBox bar={store.sampleBar}/>
+        <LineBox line={store.sampleLine}/>
       </Grid>
     </Box>
   )

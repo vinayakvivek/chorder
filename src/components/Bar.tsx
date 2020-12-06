@@ -1,10 +1,10 @@
-import { Divider, Grid, makeStyles, TextField } from '@material-ui/core';
-import React, { useEffect } from 'react';
+import { Box, Divider, Grid, makeStyles, TextField } from '@material-ui/core';
+import React, { Fragment, useEffect } from 'react';
 import { useStores } from '../hooks/store';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { Chord } from '../models/chord';
 import { observer } from 'mobx-react';
-import { Bar } from '../models/song';
+import { Bar, Line } from '../models/song';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -26,7 +26,6 @@ export const ChordBox = ({ chord }: ChordBoxProps) => {
       onChange={(event: any, newValue: Chord | null) => {
         if (newValue) {
           chord.copyFrom(newValue);
-          console.log(store.sampleBar);
         }
       }}
       options={store.allChords}
@@ -44,26 +43,50 @@ interface BarBoxProps {
 }
 
 export const BarBox = ({ bar }: BarBoxProps) => {
-  const divider = (
-    <Grid item style={{ padding: 2 }}>
-      <Divider style={{ width: 4 }} orientation="vertical" />
-    </Grid>
-  );
-
   return (
     <Grid container spacing={2}>
-      { divider }
-      { divider }
       {
         bar.chords.map((chord, index) => (
           <Grid item key={index}>
-            <ChordBox chord={chord}/>
+            <ChordBox chord={chord} />
           </Grid>
         ))
       }
-      { divider }
-      { divider }
     </Grid>
   );
 }
 
+interface LineBoxProps {
+  line: Line
+}
+
+export const LineBox = ({ line }: LineBoxProps) => {
+  const divider = (
+    <Fragment>
+      <Box m={1} />
+      <Grid item style={{ padding: 2 }}>
+        <Divider style={{ width: 4 }} orientation="vertical" />
+      </Grid>
+      <Grid item style={{ padding: 2 }}>
+        <Divider style={{ width: 4 }} orientation="vertical" />
+      </Grid>
+      <Box m={1} />
+    </Fragment>
+  );
+  return (
+    <Grid container>
+      { divider}
+      {
+        line.bars.map((bar, index) => (
+          <Fragment key={index}>
+            <Grid item>
+              <BarBox bar={bar} />
+            </Grid>
+            { divider }
+          </Fragment>
+
+        ))
+      }
+    </Grid>
+  );
+}
