@@ -1,4 +1,4 @@
-import { Box, Divider, Grid, IconButton } from '@material-ui/core';
+import { Box, Button, Divider, Grid, IconButton, makeStyles, TextField } from '@material-ui/core';
 import { AddCircle, RemoveCircle } from '@material-ui/icons';
 import React, { Fragment } from 'react';
 import { useStores } from '../hooks/store';
@@ -6,11 +6,23 @@ import { Chord, ChordType } from '../models/chord';
 import { Bar, Line } from '../models/song';
 import { BarBox } from './Bar';
 
+
+const useStyles = makeStyles((theme) => ({
+  lyricsText: {
+    // backgroundColor: "red",
+    height: 20,
+    marginTop: 10,
+    marginBottom: 30,
+  }
+}));
+
+
 interface LineBoxProps {
   line: Line
 }
 
 export const LineBox = ({ line }: LineBoxProps) => {
+  const classes = useStyles();
   const store = useStores().serviceStore;
   const divider = (
     <Fragment>
@@ -26,9 +38,7 @@ export const LineBox = ({ line }: LineBoxProps) => {
   );
 
   const addBar = () => {
-    line.addBar(new Bar([
-      new Chord(0, ChordType.empty),
-    ]));
+    line.addBar(Bar.init());
     store.refresh();
   }
 
@@ -38,29 +48,52 @@ export const LineBox = ({ line }: LineBoxProps) => {
   }
 
   return (
-    <Grid container spacing={2}>
-      { divider}
-      {
-        line.bars.map((bar, index) => (
-          <Fragment key={index}>
-            <Grid item>
-              <BarBox bar={bar} />
-            </Grid>
-            { divider}
-          </Fragment>
-        ))
-      }
-      <Grid item>
-        <IconButton aria-label="add-bar" size="small" onClick={addBar}>
-          <AddCircle />
-        </IconButton>
+    <Grid container spacing={2} direction="column">
+      <Grid container>
+        { divider}
         {
-          line.bars.length > 0 &&
-          <IconButton aria-label="remove-bar" size="small" color="secondary" onClick={removeBar}>
-            <RemoveCircle />
-          </IconButton>
+          line.bars.map((bar, index) => (
+            <Fragment key={index}>
+              <Grid item>
+                <BarBox bar={bar} />
+              </Grid>
+              { divider}
+            </Fragment>
+          ))
         }
+        <Grid item>
+          <Grid container direction="row">
+            <IconButton aria-label="add-bar" size="small" onClick={addBar}>
+              <AddCircle />
+            </IconButton>
+            {
+              line.bars.length > 0 &&
+              <IconButton aria-label="remove-bar" size="small" color="secondary" onClick={removeBar}>
+                <RemoveCircle />
+              </IconButton>
+            }
+            <Box mx={2}/>
+            <Button onClick={() => {
+              line.toggleShowLyrics();
+              store.refresh();
+            }}>
+              { line.showLyrics ? 'Hide lyrics' : 'Show lyrics' }
+            </Button>
+          </Grid>
+        </Grid>
       </Grid>
+      {
+        line.showLyrics &&
+        <TextField
+          className={classes.lyricsText}
+          value={line.lyrics}
+          onChange={(e) => {
+            line.setLyrics(e.target.value);
+            store.refresh();
+          }}
+          size="small"
+        />
+      }
     </Grid>
   );
 }

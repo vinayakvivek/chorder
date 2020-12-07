@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
 const Song = observer(() => {
   const store = useStores().serviceStore;
   const addLine = () => {
-    store.song.addLine(new Line([], 1));
+    store.song.addLine(Line.init());
     store.refresh();
   }
   const removeLine = () => {
@@ -29,6 +29,7 @@ const Song = observer(() => {
           store.song.lines.map((line, index) => (
             <Grid item key={index}>
               <LineBox line={line} />
+              <Box my={2}/>
             </Grid>
           ))
         }

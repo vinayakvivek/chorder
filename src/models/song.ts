@@ -8,6 +8,15 @@ export class Bar {
     this.chords = chords;
   }
 
+  static init() {
+    return new Bar([
+      Chord.init(),
+      Chord.init(),
+      Chord.init(),
+      Chord.init(),
+    ]);
+  }
+
   addChord(chord: Chord) {
     this.chords.push(chord);
   }
@@ -22,10 +31,20 @@ export class Line {
   bars: Bar[] = [];
   repeatCount: number = 0;
   lyrics: string = '';
+  showLyrics: boolean;
 
   constructor(bars: Bar[], repeatCount: number) {
     this.bars = bars;
     this.repeatCount = repeatCount;
+    this.showLyrics = false;
+  }
+
+  static init() {
+    return new Line([Bar.init()], 1);
+  }
+
+  toggleShowLyrics() {
+    this.showLyrics = !this.showLyrics;
   }
 
   setLyrics(text: string) {

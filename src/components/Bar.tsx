@@ -10,6 +10,18 @@ const useStyles = makeStyles((theme) => ({
   barButton: {
     width: "15px",
     height: "15px",
+  },
+  popupIndicator: {
+    display: "none",
+  },
+  popper: {
+    width: "100px",
+  },
+  input: {
+    padding: 0,
+    width: 100,
+  },
+  root: {
   }
 }));
 
@@ -18,8 +30,9 @@ interface ChordBoxProps {
 }
 
 export const ChordBox = ({ chord }: ChordBoxProps) => {
+  const classes = useStyles();
   const store = useStores().serviceStore;
-  const width = chord.label.length > 2 ? 100 : 70;
+  // const width = chord.label.length > 2 ? 100 : 60;
   return (
     <Autocomplete
       size="small"
@@ -30,12 +43,21 @@ export const ChordBox = ({ chord }: ChordBoxProps) => {
           store.refresh();
         }
       }}
+      fullWidth
       options={store.allChords}
       disableClearable
       getOptionLabel={(option: Chord) => option.label}
       getOptionSelected={(option: Chord, value: Chord) => option.equals(value)}
-      style={{ width }}
-      renderInput={(params) => <TextField {...params} variant="outlined" />}
+      groupBy={(option) => option.inScale ? 'In scale' : 'Others'}
+      style={{ width: 100, padding: 0, }}
+      renderInput={(params) => (
+        <TextField {...params} className={classes.input} variant="outlined" />
+      )}
+      classes={{
+        popupIndicator: classes.popupIndicator,
+        popper: classes.popper,
+        root: classes.root,
+      }}
     />
   )
 }
