@@ -1,8 +1,7 @@
 import { Box, Button, Divider, Grid, IconButton, makeStyles, TextField } from '@material-ui/core';
 import { AddCircle, RemoveCircle } from '@material-ui/icons';
-import React, { Fragment } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { useStores } from '../hooks/store';
-import { Chord, ChordType } from '../models/chord';
 import { Bar, Line } from '../models/song';
 import { BarBox } from './Bar';
 
@@ -36,6 +35,12 @@ export const LineBox = ({ line }: LineBoxProps) => {
       <Box m={1} />
     </Fragment>
   );
+
+  const [lyrics, setLyrics] = useState(line.lyrics);
+
+  useEffect(() => {
+    line.setLyrics(lyrics);
+  }, [line, lyrics]);
 
   const addBar = () => {
     line.addBar(Bar.init());
@@ -86,11 +91,8 @@ export const LineBox = ({ line }: LineBoxProps) => {
         line.showLyrics &&
         <TextField
           className={classes.lyricsText}
-          value={line.lyrics}
-          onChange={(e) => {
-            line.setLyrics(e.target.value);
-            store.refresh();
-          }}
+          value={lyrics}
+          onChange={(e) => setLyrics(e.target.value)}
           size="small"
         />
       }

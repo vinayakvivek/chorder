@@ -56,14 +56,14 @@ const Song = observer(() => {
 const Home = () => {
   const classes = useStyles();
   return (
-    <Container className={classes.root}>
+    <div style={{margin: "50px"}}>
       <Box m={10} />
       <Typography variant="h4">
         My song
       </Typography>
       <Box m={5} />
       <Song />
-    </Container>
+    </div>
   );
 }
 
