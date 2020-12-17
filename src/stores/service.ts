@@ -1,6 +1,8 @@
 import { makeAutoObservable } from 'mobx';
+import { Bar } from '../models/bar';
 import { Chord, ChordType, createAllChords } from '../models/chord';
-import { Bar, Line, Song } from '../models/song';
+import { Line } from '../models/line';
+import { Song } from '../models/song';
 
 class ServiceStore {
 

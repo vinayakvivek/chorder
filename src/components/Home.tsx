@@ -2,7 +2,7 @@ import { Box, Button, Grid, makeStyles, Typography } from '@material-ui/core';
 import { observer } from 'mobx-react';
 import React from "react";
 import { useStores } from '../hooks/store';
-import { Line } from '../models/song';
+import { Line } from '../models/line';
 import { exportPdfFile } from '../utils';
 import { LineBox } from './Line';
 

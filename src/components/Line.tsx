@@ -2,7 +2,8 @@ import { Box, Button, Divider, Grid, IconButton, makeStyles, TextField } from '@
 import { AddCircle, RemoveCircle } from '@material-ui/icons';
 import React, { Fragment, useState, useEffect } from 'react';
 import { useStores } from '../hooks/store';
-import { Bar, Line } from '../models/song';
+import { Bar } from '../models/bar';
+import { Line } from '../models/line';
 import { BarBox } from './Bar';
 
 
