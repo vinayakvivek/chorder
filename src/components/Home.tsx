@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import React from "react";
 import { useStores } from '../hooks/store';
 import { Line } from '../models/line';
-import { exportPdfFile } from '../utils';
+import { exportPdfFile, generateHtmlFromSong } from '../utils';
 import { LineBox } from './Line';
 
 const useStyles = makeStyles((theme) => ({
@@ -58,21 +58,9 @@ const Home = () => {
   const classes = useStyles();
   const store = useStores().serviceStore;
   const exportPdf = () => {
-    const options = { format: 'Letter' };
-    const html = `
-      <!DOCTYPE html>
-      <html lang="en">
-      <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-      </head>
-      <body>
-        <h1>Yo</h1>
-      </body>
-      </html>
-    `;
-    exportPdfFile('chords.html', html);
+    const song = store.song;
+    const html = generateHtmlFromSong(song);
+    exportPdfFile(`${song.name}.html`, html);
   }
 
   return (
