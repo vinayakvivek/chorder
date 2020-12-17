@@ -10,6 +10,10 @@ export class Song {
     this.lines = lines;
   }
 
+  setName(name: string) {
+    this.name = name;
+  }
+
   addLine(line: Line) {
     this.lines.push(line);
   }

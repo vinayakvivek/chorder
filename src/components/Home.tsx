@@ -1,6 +1,6 @@
-import { Box, Button, Grid, makeStyles, Typography } from '@material-ui/core';
+import { Box, Button, Grid, makeStyles, TextField, Typography } from '@material-ui/core';
 import { observer } from 'mobx-react';
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useStores } from '../hooks/store';
 import { Line } from '../models/line';
 import { exportPdfFile, generateHtmlFromSong } from '../utils';
@@ -9,6 +9,12 @@ import { LineBox } from './Line';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+  },
+  songNameTextField: {
+    width: 500,
+  },
+  bigFont: {
+    fontSize: 30,
   }
 }));
 
@@ -30,7 +36,7 @@ const Song = observer(() => {
           store.song.lines.map((line, index) => (
             <Grid item key={index}>
               <LineBox line={line} />
-              <Box my={2}/>
+              <Box my={2} />
             </Grid>
           ))
         }
@@ -57,19 +63,35 @@ const Song = observer(() => {
 const Home = () => {
   const classes = useStyles();
   const store = useStores().serviceStore;
+  const song = store.song;
   const exportPdf = () => {
-    const song = store.song;
     const html = generateHtmlFromSong(song);
     exportPdfFile(`${song.name}.html`, html);
   }
 
+  const [name, setName] = useState(song.name);
+  useEffect(() => {
+    song.setName(name);
+  }, [song, name]);
+
   return (
-    <div style={{margin: "50px"}}>
+    <div style={{ margin: "50px" }}>
       <Box m={10} />
       <Grid container direction="row">
         <Typography variant="h4">
-          My song
+          Song :
         </Typography>
+        <Box mx={2} />
+        <TextField
+          className={classes.songNameTextField}
+          InputProps={{
+            classes: {
+              input: classes.bigFont,
+            },
+          }}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
         <Box mx={2} />
         <Button variant="contained" onClick={exportPdf}>Export</Button>
       </Grid>

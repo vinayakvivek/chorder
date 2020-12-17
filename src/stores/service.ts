@@ -28,7 +28,7 @@ class ServiceStore {
       new Chord(6, ChordType.minor),
     ]);
     const sampleLine = new Line([ sampleBar, sampleBar2 ], 1);
-    this.song = new Song("Test", [sampleLine])
+    this.song = new Song("My song", [sampleLine])
   }
 
   setId(id: string) {
