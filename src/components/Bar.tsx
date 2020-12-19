@@ -35,13 +35,21 @@ export const ChordBox = ({ chord }: ChordBoxProps) => {
   // const width = chord.label.length > 2 ? 100 : 60;
   return (
     <Autocomplete
+      freeSolo
       size="small"
       value={chord}
-      onChange={(event: any, newValue: Chord | null) => {
-        if (newValue) {
+      onChange={(event: any, newValue: Chord | string) => {
+        if (newValue instanceof Chord) {
           chord.copyFrom(newValue);
           store.refresh();
         }
+      }}
+      onInputChange={(e, value) => {
+        if (value.length > 5) {
+          alert('chord too big');
+        }
+        chord.fromString(value);
+        store.refresh();
       }}
       fullWidth
       options={store.allChords}
