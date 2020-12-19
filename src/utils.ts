@@ -29,7 +29,11 @@ export const generateHtmlFromSong = (song: Song) => {
       lineDiv += `<div class="bar-divider"></div>`;
       const numChords = bar.chords.length;
       for (let i = 0; i < numChords; ++i) {
-        lineDiv += `<span class="chord-text">${bar.chords[i].label}</span>`;
+        let chordLabel = bar.chords[i].label;
+        if (i > 0 && chordLabel === bar.chords[i - 1].label) {
+          chordLabel = '%';
+        }
+        lineDiv += `<span class="chord-text">${chordLabel}</span>`;
         if (i < numChords - 1) {
           lineDiv += `<div class="chord-divider"></div>`;
         }
@@ -80,7 +84,7 @@ export const generateHtmlFromSong = (song: Song) => {
 
         .chord-text {
           margin: 0 20px;
-          font-size: 1.3em
+          font-size: 1.1em
         }
 
         .chord-divider {
@@ -91,7 +95,7 @@ export const generateHtmlFromSong = (song: Song) => {
 
         .line-repeat-count {
           padding: 5px;
-          font-size: 1.4em;
+          font-size: 1.2em;
           margin-left: 50px;
           border: 1px solid grey;
           border-radius: 50%;

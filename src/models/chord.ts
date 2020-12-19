@@ -32,7 +32,7 @@ export class Chord {
   inScale: boolean;
 
   resetLabel() {
-    this.label = this.isEmpty ? '-' : `${CHORD_BASES[this.base]}${this.type}`;
+    this.label = this.isEmpty ? '' : `${CHORD_BASES[this.base]}${this.type}`;
   }
 
   constructor(base: number, type: string, inScale: boolean = false) {
