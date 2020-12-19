@@ -38,6 +38,7 @@ export const LineBox = ({ line }: LineBoxProps) => {
   );
 
   const [lyrics, setLyrics] = useState(line.lyrics);
+  const [repeat, setRepeat] = useState(line.repeatCount);
 
   useEffect(() => {
     line.setLyrics(lyrics);
@@ -52,6 +53,10 @@ export const LineBox = ({ line }: LineBoxProps) => {
     line.removeLastBar();
     store.refresh();
   }
+
+  useEffect(() => {
+    line.setRepeatCount(repeat);
+  }, [line, repeat]);
 
   return (
     <Grid container spacing={2} direction="column">
@@ -78,6 +83,19 @@ export const LineBox = ({ line }: LineBoxProps) => {
                 <RemoveCircle />
               </IconButton>
             }
+            <Box mx={2}/>
+            <TextField
+              type="number"
+              size="medium"
+              value={repeat}
+              onChange={(e) => setRepeat(parseInt(e.target.value))}
+              InputProps={{
+                  inputProps: {
+                      max: 10, min: 1
+                  }
+              }}
+              label="repeat"
+            />
             <Box mx={2}/>
             <Button onClick={() => {
               line.toggleShowLyrics();

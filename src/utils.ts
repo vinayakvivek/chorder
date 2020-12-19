@@ -20,6 +20,10 @@ export const generateHtmlFromSong = (song: Song) => {
   let body = '';
   body += `<h1>${song.name}</h1>`;
   for (const line of song.lines) {
+    if (line.bars.length === 0) {
+      body += `<div class="line"></div>`;
+      continue;
+    }
     let lineDiv = '';
     for (const bar of line.bars) {
       lineDiv += `<div class="bar-divider"></div>`;
@@ -36,6 +40,9 @@ export const generateHtmlFromSong = (song: Song) => {
       lineDiv += `<span class="line-repeat-count">${line.repeatCount}</span>`;
     }
     body += `<div class="line">${lineDiv}</div>`;
+    if (line.lyrics) {
+      body += `<div class="lyrics">${line.lyrics}</div>`;
+    }
   }
   return `
     <!DOCTYPE html>
@@ -56,11 +63,12 @@ export const generateHtmlFromSong = (song: Song) => {
           justify-content: flex-start;
           align-items: center;
           margin: 20px 0;
+          height: 50px;
         }
 
         .bar-divider {
           display: inline-block;
-          height: 50px;
+          height: 100%;
           width: 3px;
           border-left: 3px solid black;
           border-right: 3px solid black;
@@ -68,18 +76,18 @@ export const generateHtmlFromSong = (song: Song) => {
 
         .chord-text {
           margin: 0 20px;
-          font-size: xx-large
+          font-size: 1.3em
         }
 
         .chord-divider {
           display: inline-block;
-          height: 40px;
+          height: 80%;
           border-left: 1px solid black;
         }
 
         .line-repeat-count {
           padding: 5px;
-          font-size: x-large;
+          font-size: 1.4em;
           margin-left: 50px;
           border: 1px solid grey;
           border-radius: 50%;
@@ -87,6 +95,10 @@ export const generateHtmlFromSong = (song: Song) => {
 
         .line-repeat-count:before {
           content: 'x';
+        }
+
+        .lyrics {
+          margin-bottom: 30px;
         }
       </style>
     </head>

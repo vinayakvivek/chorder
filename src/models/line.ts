@@ -14,7 +14,8 @@ export class Line {
   }
 
   static init() {
-    return new Line([Bar.init()], 1);
+    // return new Line([Bar.init()], 1);
+    return new Line([], 1);
   }
 
   toggleShowLyrics() {
@@ -23,6 +24,10 @@ export class Line {
 
   setLyrics(text: string) {
     this.lyrics = text;
+  }
+
+  setRepeatCount(count: number) {
+    this.repeatCount = count;
   }
 
   addBar(bar: Bar) {
