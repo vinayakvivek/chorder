@@ -5,6 +5,8 @@ import { useStores } from '../hooks/store';
 import { Line } from '../models/line';
 import { exportPdfFile, generateHtmlFromSong } from '../utils';
 import { LineBox } from './Line';
+import AddIcon from '@material-ui/icons/Add';
+import RemoveIcon from '@material-ui/icons/Remove';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,6 +34,7 @@ const Song = observer(() => {
     <Box>
       <Grid container spacing={3} direction="column">
         <span style={{ display: "none" }}>{store.refreshCounter}</span>
+        <Box mx={2} />
         {
           store.song.lines.map((line, index) => (
             <Grid item key={index}>
@@ -69,6 +72,11 @@ const Home = () => {
     exportPdfFile(`${song.name}.html`, html);
   }
 
+  const transpose = (up: boolean) => {
+    store.transpose(up);
+    store.refresh();
+  }
+
   const [name, setName] = useState(song.name);
   useEffect(() => {
     song.setName(name);
@@ -92,6 +100,10 @@ const Home = () => {
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
+        <Box mx={2} />
+        <Button variant="outlined" size="small" onClick={() => transpose(true)}><AddIcon/></Button>
+        <Box mx={1} />
+        <Button variant="outlined" size="small" onClick={() => transpose(false)}><RemoveIcon/></Button>
         <Box mx={2} />
         <Button variant="contained" onClick={exportPdf}>Export</Button>
       </Grid>

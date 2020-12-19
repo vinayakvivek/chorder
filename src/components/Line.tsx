@@ -1,5 +1,6 @@
 import { Box, Button, Divider, Grid, IconButton, makeStyles, TextField } from '@material-ui/core';
 import { AddCircle, RemoveCircle } from '@material-ui/icons';
+import { observer } from 'mobx-react';
 import React, { Fragment, useState, useEffect } from 'react';
 import { useStores } from '../hooks/store';
 import { Bar } from '../models/bar';
@@ -21,7 +22,7 @@ interface LineBoxProps {
   line: Line
 }
 
-export const LineBox = ({ line }: LineBoxProps) => {
+export const LineBox = observer(({ line }: LineBoxProps) => {
   const classes = useStyles();
   const store = useStores().serviceStore;
   const divider = (
@@ -117,4 +118,4 @@ export const LineBox = ({ line }: LineBoxProps) => {
       }
     </Grid>
   );
-}
+});

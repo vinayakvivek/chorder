@@ -17,6 +17,10 @@ export class Bar {
     ]);
   }
 
+  transpose(up: boolean = true) {
+    return new Bar(this.chords.map(c => c.transpose(up)));
+  }
+
   addChord(chord: Chord) {
     this.chords.push(chord);
   }

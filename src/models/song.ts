@@ -10,6 +10,10 @@ export class Song {
     this.lines = lines;
   }
 
+  transpose(up: boolean = true) {
+    return new Song(this.name, this.lines.map(l => l.transpose(up)));
+  }
+
   setName(name: string) {
     this.name = name;
   }

@@ -31,6 +31,10 @@ class ServiceStore {
     this.song = new Song("My song", [sampleLine])
   }
 
+  transpose(up: boolean = true) {
+    this.song = this.song.transpose(up);
+  }
+
   setId(id: string) {
     this.id = id;
   }

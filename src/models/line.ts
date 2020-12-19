@@ -7,15 +7,21 @@ export class Line {
   lyrics: string = '';
   showLyrics: boolean;
 
-  constructor(bars: Bar[], repeatCount: number) {
+  constructor(bars: Bar[], repeatCount: number, showLyrics: boolean = false) {
     this.bars = bars;
     this.repeatCount = repeatCount;
-    this.showLyrics = false;
+    this.showLyrics = showLyrics;
   }
 
   static init() {
     // return new Line([Bar.init()], 1);
     return new Line([], 1);
+  }
+
+  transpose(up: boolean = true) {
+    const line = new Line(this.bars.map(b => b.transpose(up)), this.repeatCount, this.showLyrics);
+    line.setLyrics(this.lyrics);
+    return line;
   }
 
   toggleShowLyrics() {

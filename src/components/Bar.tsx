@@ -5,6 +5,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { Chord, ChordType } from '../models/chord';
 import { Bar } from '../models/bar';
 import { AddCircle, RemoveCircle } from '@material-ui/icons';
+import { observer } from 'mobx-react';
 
 const useStyles = makeStyles((theme) => ({
   barButton: {
@@ -29,10 +30,10 @@ interface ChordBoxProps {
   chord: Chord
 }
 
-export const ChordBox = ({ chord }: ChordBoxProps) => {
+export const ChordBox = observer(({ chord }: ChordBoxProps) => {
   const classes = useStyles();
   const store = useStores().serviceStore;
-  // const width = chord.label.length > 2 ? 100 : 60;
+
   return (
     <Autocomplete
       freeSolo
@@ -45,10 +46,10 @@ export const ChordBox = ({ chord }: ChordBoxProps) => {
         }
       }}
       onInputChange={(e, value) => {
-        if (value.length > 5) {
+        if (value.length > 10) {
           alert('chord too big');
         }
-        chord.fromString(value);
+        chord.updateFromString(value);
         store.refresh();
       }}
       fullWidth
@@ -56,7 +57,7 @@ export const ChordBox = ({ chord }: ChordBoxProps) => {
       disableClearable
       getOptionLabel={(option: Chord) => option.label}
       getOptionSelected={(option: Chord, value: Chord) => option.equals(value)}
-      groupBy={(option) => option.inScale ? 'In scale' : 'Others'}
+      // groupBy={(option) => option.inScale ? 'In scale' : 'Others'}
       style={{ width: 100, padding: 0, }}
       renderInput={(params) => (
         <TextField {...params} className={classes.input} variant="outlined" />
@@ -68,13 +69,13 @@ export const ChordBox = ({ chord }: ChordBoxProps) => {
       }}
     />
   )
-}
+});
 
 interface BarBoxProps {
   bar: Bar
 }
 
-export const BarBox = ({ bar }: BarBoxProps) => {
+export const BarBox = observer(({ bar }: BarBoxProps) => {
   const store = useStores().serviceStore;
   const classes = useStyles();
 
@@ -112,5 +113,5 @@ export const BarBox = ({ bar }: BarBoxProps) => {
       </Grid>
     </Grid>
   );
-}
+});
 

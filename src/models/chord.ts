@@ -26,20 +26,21 @@ export enum ChordType {
 
 export class Chord {
   base: number;
-  type: ChordType;
+  type: string;
   label: string = '';
   isEmpty: boolean;
   inScale: boolean;
 
-  constructor(base: number, type: ChordType, inScale: boolean = false) {
+  resetLabel() {
+    this.label = this.isEmpty ? '-' : `${CHORD_BASES[this.base]}${this.type}`;
+  }
+
+  constructor(base: number, type: string, inScale: boolean = false) {
     this.base = base;
     this.type = type;
-    this.label = `${CHORD_BASES[base]}${type}`;
     this.isEmpty = type === ChordType.empty;
-    if (this.isEmpty) {
-      this.label = '-';
-    }
     this.inScale = inScale;
+    this.resetLabel();
   }
 
   static init() {
@@ -53,14 +54,25 @@ export class Chord {
     this.isEmpty = other.isEmpty;
   }
 
-  fromString(label: string) {
-    if (label.length < 1 || label.length > 5) {
+  transpose(up: boolean = true) {
+    if (this.isEmpty) {
+      return this;
+    } else {
+      const offset = up ? 1 : -1;
+      const b = (this.base + offset + CHORD_BASES.length) % CHORD_BASES.length;
+      return new Chord(b, this.type);
+    }
+  }
+
+  updateFromString(label: string) {
+    if (label.length < 1) {
       this.isEmpty = true;
       return;
     }
 
     const base1 = label[0].toUpperCase();
     if (base1 > 'G' || base1 < 'A') {
+      this.isEmpty = true;
       return;
     }
     let base = base1;
@@ -70,10 +82,9 @@ export class Chord {
       }
     }
     this.base = CHORD_BASE_INDEX[base];
-    this.type = ChordType.other;
-    this.label = base + label.slice(base.length);
+    this.type = label.slice(base.length);
+    this.label = base + this.type
     this.isEmpty = false;
-    console.log(this);
   }
 
   equals(other: Chord) {
