@@ -18,7 +18,7 @@ export const exportPdfFile = (name: string, data: any) => {
 
 export const generateHtmlFromSong = (song: Song) => {
   let body = '';
-  body += `<h1>${song.name}</h1>`;
+  body += `<h1 class="title">${song.name}</h1>`;
   for (const line of song.lines) {
     if (line.bars.length === 0) {
       body += `<div class="line"></div>`;
@@ -54,6 +54,10 @@ export const generateHtmlFromSong = (song: Song) => {
       <style>
         body {
           margin: 50px 50px;
+        }
+
+        .title {
+          margin-bottom: 30px;
         }
 
         .line {

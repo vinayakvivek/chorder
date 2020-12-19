@@ -22,7 +22,7 @@ interface LineBoxProps {
   line: Line
 }
 
-export const LineBox = observer(({ line }: LineBoxProps) => {
+export const LineBox = ({ line }: LineBoxProps) => {
   const classes = useStyles();
   const store = useStores().serviceStore;
   const divider = (
@@ -118,4 +118,4 @@ export const LineBox = observer(({ line }: LineBoxProps) => {
       }
     </Grid>
   );
-});
+}

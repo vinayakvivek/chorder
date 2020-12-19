@@ -30,7 +30,7 @@ interface ChordBoxProps {
   chord: Chord
 }
 
-export const ChordBox = observer(({ chord }: ChordBoxProps) => {
+export const ChordBox = ({ chord }: ChordBoxProps) => {
   const classes = useStyles();
   const store = useStores().serviceStore;
 
@@ -69,13 +69,13 @@ export const ChordBox = observer(({ chord }: ChordBoxProps) => {
       }}
     />
   )
-});
+}
 
 interface BarBoxProps {
   bar: Bar
 }
 
-export const BarBox = observer(({ bar }: BarBoxProps) => {
+export const BarBox = ({ bar }: BarBoxProps) => {
   const store = useStores().serviceStore;
   const classes = useStyles();
 
@@ -113,5 +113,5 @@ export const BarBox = observer(({ bar }: BarBoxProps) => {
       </Grid>
     </Grid>
   );
-});
+}
 
