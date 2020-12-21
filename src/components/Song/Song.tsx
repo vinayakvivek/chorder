@@ -1,13 +1,14 @@
-import { Box, Button, Grid, makeStyles, TextField } from '@material-ui/core';
+import { Box, Button, Grid, makeStyles, Snackbar, TextField } from '@material-ui/core';
 import { observer } from 'mobx-react';
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useStores } from '../../hooks/store';
 import { Line } from '../../models/line';
 import { exportPdfFile, generateHtmlFromSong } from '../../utils';
 import { LineBox } from './Line';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
-import { createSong, saveSong } from '../../service/db';
+import { saveSong } from '../../service/db';
+import { Alert } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,7 +37,7 @@ const Song = () => {
 
   const [nameError, setNameError] = useState('');
 
-  const validateName = () => {
+  const validateName = useCallback(() => {
     console.log(allNames);
     setNameError('');
     const name = song.name.trim();
@@ -49,16 +50,26 @@ const Song = () => {
       return false;
     }
     return true;
-  }
+  }, [allNames, song.name]);
 
   const exportPdf = () => {
     const html = generateHtmlFromSong(song);
     exportPdfFile(`${song.name}.html`, html);
   }
 
-  const save = () => {
+  const save = async () => {
     if (validateName()) {
-      saveSong(song);
+      const err = await saveSong(song);
+      if (!err) {
+        // success
+        setAlertSeverity('success');
+        setAlertMessage('Saved successfully');
+      } else {
+        setAlertSeverity('error');
+        setAlertMessage('Error while saving, please contact admin');
+        console.error(err);
+      }
+      setAlertOpen(true);
     }
   }
 
@@ -80,7 +91,17 @@ const Song = () => {
   useEffect(() => {
     song.setName(name);
     validateName();
-  }, [song, name]);
+  }, [song, name, validateName]);
+
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertSeverity, setAlertSeverity] = useState<'success' | 'error'>('success');
+  const handleAlertClose = (event?: React.SyntheticEvent, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setAlertOpen(false);
+  };
 
   return (
     <div>
@@ -113,6 +134,11 @@ const Song = () => {
             <Button variant="contained" onClick={save}>Save</Button>
             <Box mx={2} />
             <Button variant="contained" onClick={exportPdf}>Export</Button>
+            <Snackbar open={alertOpen} autoHideDuration={6000} onClose={handleAlertClose}>
+              <Alert onClose={handleAlertClose} severity={alertSeverity}>
+                {alertMessage}
+              </Alert>
+            </Snackbar>
           </Grid>
         </Grid>
       </Grid>

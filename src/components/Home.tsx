@@ -1,9 +1,8 @@
 import { Box, Button, Divider, Grid } from '@material-ui/core';
 import { observer } from 'mobx-react';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useStores } from '../hooks/store';
 import { signOut } from '../service/auth';
-import { getAllSongs } from '../service/db';
 import Song from './Song/Song';
 import SongList from './SongList';
 
