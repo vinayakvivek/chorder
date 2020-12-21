@@ -20,53 +20,11 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Song = observer(() => {
-  const store = useStores().serviceStore;
-  const addLine = () => {
-    store.song.addLine(Line.init());
-    store.refresh();
-  }
-  const removeLine = () => {
-    store.song.removeLastLine();
-    store.refresh();
-  }
-  return (
-    <Box>
-      <Grid container spacing={3} direction="column">
-        <span style={{ display: "none" }}>{store.refreshCounter}</span>
-        <Box mx={2} />
-        {
-          store.song.lines.map((line, index) => (
-            <Grid item key={index}>
-              <LineBox line={line} />
-              <Box my={2} />
-            </Grid>
-          ))
-        }
-        <Grid item>
-          <Box my={1} />
-          <Grid container direction="row">
-            <Button aria-label="add-line" size="small" onClick={addLine}>
-              Add a line
-            </Button>
-            <Box m={1} />
-            {
-              store.song.lines.length > 1 &&
-              <Button aria-label="remove-line" size="small" color="secondary" onClick={removeLine}>
-                Remove last line
-              </Button>
-            }
-          </Grid>
-        </Grid>
-      </Grid>
-    </Box>
-  )
-});
-
-const Home = () => {
+const Song = () => {
   const classes = useStyles();
   const store = useStores().serviceStore;
   const song = store.song;
+
   const exportPdf = () => {
     const html = generateHtmlFromSong(song);
     exportPdfFile(`${song.name}.html`, html);
@@ -74,6 +32,15 @@ const Home = () => {
 
   const transpose = (up: boolean) => {
     store.transpose(up);
+  }
+
+  const addLine = () => {
+    store.song.addLine(Line.init());
+    store.refresh();
+  }
+
+  const removeLine = () => {
+    store.song.removeLastLine();
     store.refresh();
   }
 
@@ -108,9 +75,39 @@ const Home = () => {
         <Button variant="contained" onClick={exportPdf}>Export</Button>
       </Grid>
       <Box m={5} />
-      <Song />
+
+      <Box>
+        <Grid container spacing={3} direction="column">
+          <span style={{ display: "none" }}>{store.refreshCounter}</span>
+          <Box mx={2} />
+          {
+            store.song.lines.map((line, index) => (
+              <Grid item key={index}>
+                <LineBox line={line} />
+                <Box my={2} />
+              </Grid>
+            ))
+          }
+          <Grid item>
+            <Box my={1} />
+            <Grid container direction="row">
+              <Button aria-label="add-line" size="small" onClick={addLine}>
+                Add a line
+              </Button>
+              <Box m={1} />
+              {
+                store.song.lines.length > 1 &&
+                <Button aria-label="remove-line" size="small" color="secondary" onClick={removeLine}>
+                  Remove last line
+                </Button>
+              }
+            </Grid>
+          </Grid>
+        </Grid>
+      </Box>
+
     </div>
   );
 }
 
-export default observer(Home);
+export default observer(Song);

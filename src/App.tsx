@@ -1,7 +1,7 @@
 import { createMuiTheme, CssBaseline, ThemeProvider } from '@material-ui/core';
 import React from 'react';
 import './App.css';
-import Home from './components/Home';
+import Song from './components/Song';
 
 const theme = createMuiTheme({
   palette: {
@@ -15,7 +15,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <div className="App">
-        <Home />
+        <Song />
       </div>
     </ThemeProvider>
   );
