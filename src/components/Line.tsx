@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Grid, IconButton, makeStyles, TextField } from '@material-ui/core';
+import { Box, Button, Divider, Grid, IconButton, makeStyles, Menu, MenuItem, TextField } from '@material-ui/core';
 import { AddCircle, RemoveCircle } from '@material-ui/icons';
 import { observer } from 'mobx-react';
 import React, { Fragment, useState, useEffect } from 'react';
@@ -6,6 +6,7 @@ import { useStores } from '../hooks/store';
 import { Bar } from '../models/bar';
 import { Line } from '../models/line';
 import { BarBox } from './Bar';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -14,6 +15,10 @@ const useStyles = makeStyles((theme) => ({
     height: 20,
     marginTop: 10,
     marginBottom: 30,
+  },
+  moreButton: {
+    padding: '0px',
+    width: '10px',
   }
 }));
 
@@ -40,6 +45,7 @@ export const LineBox = ({ line }: LineBoxProps) => {
 
   const [lyrics, setLyrics] = useState(line.lyrics);
   const [repeat, setRepeat] = useState(line.repeatCount);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   useEffect(() => {
     line.setLyrics(lyrics);
@@ -59,9 +65,32 @@ export const LineBox = ({ line }: LineBoxProps) => {
     line.setRepeatCount(repeat);
   }, [line, repeat]);
 
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
-    <Grid container spacing={2} direction="column">
+    <Grid container spacing={2} direction="column" alignItems="center">
       <Grid container>
+        <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} className={classes.moreButton}>
+          <MoreVertIcon />
+        </Button>
+        <Menu
+          id="simple-menu"
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+        >
+          <MenuItem onClick={handleClose}>Profile</MenuItem>
+          <MenuItem onClick={handleClose}>My account</MenuItem>
+          <MenuItem onClick={handleClose}>Logout</MenuItem>
+        </Menu>
+
         {divider}
         {
           line.bars.map((bar, index) => (
@@ -73,8 +102,9 @@ export const LineBox = ({ line }: LineBoxProps) => {
             </Fragment>
           ))
         }
+
         <Grid item>
-          <Grid container direction="row">
+          <Grid container direction="row" alignItems="center">
             <IconButton aria-label="add-bar" size="small" onClick={addBar}>
               <AddCircle />
             </IconButton>

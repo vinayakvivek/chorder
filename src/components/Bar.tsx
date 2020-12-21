@@ -90,7 +90,7 @@ export const BarBox = ({ bar }: BarBoxProps) => {
   }
 
   return (
-    <Grid container spacing={2} direction="row">
+    <Grid container spacing={2} direction="row" style={{margin: "5px 0"}}>
       {
         bar.chords.map((chord, index) => (
           <Grid item key={index}>
