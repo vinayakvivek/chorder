@@ -61,6 +61,10 @@ export class Chord {
     this.resetLabel();
   }
 
+  get isCanonical() {
+    return (this.parts.length === 1 && this.parts[0].base);
+  }
+
   static init() {
     return new Chord('');
   }

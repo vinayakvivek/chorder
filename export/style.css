@@ -3,7 +3,11 @@ body {
 }
 
 .title {
-  margin-bottom: 30px;
+  font-size: 1.8em;
+}
+
+.title span {
+  font-size: 0.8em;
 }
 
 .line-container {

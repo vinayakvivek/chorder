@@ -18,7 +18,15 @@ export const exportPdfFile = (name: string, data: any) => {
 
 export const generateHtmlFromSong = (song: Song) => {
   let body = '';
-  body += `<h1 class="title">${song.name}</h1>`;
+  const scaleLabel = song.scale.isCanonical ? `Scale: ${song.scale.label}` : '';
+  const tempoLabel = song.tempo ? `Tempo: ${song.tempo}` : '';
+  let subTitle = '';
+  if (scaleLabel && tempoLabel)  {
+    subTitle = `(${scaleLabel}, ${tempoLabel})`;
+  } else if (scaleLabel || tempoLabel) {
+    subTitle = `(${scaleLabel || tempoLabel})`;
+  }
+  body += `<p class="title"><strong>${song.name}</strong> <span>${subTitle}</span></p>`;
   for (const line of song.lines) {
     if (line.bars.length === 0) {
       body += `
@@ -72,7 +80,11 @@ export const generateHtmlFromSong = (song: Song) => {
         }
 
         .title {
-          margin-bottom: 30px;
+          font-size: 1.8em;
+        }
+
+        .title span {
+          font-size: 0.8em;
         }
 
         .line-container {
