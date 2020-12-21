@@ -38,7 +38,6 @@ const Song = () => {
   const [nameError, setNameError] = useState('');
 
   const validateName = useCallback(() => {
-    console.log(allNames);
     setNameError('');
     const name = song.name.trim();
     if (!name.length) {

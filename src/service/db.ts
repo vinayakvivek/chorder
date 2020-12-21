@@ -38,9 +38,17 @@ export const getSong = async (id: string): Promise<Song> => {
 }
 
 export const saveSong = async (song: Song) => {
-  console.log('Saving ..', song);
   try {
     await songsRef().doc(song.id).set(song.toJson());
+    return null;
+  } catch (err) {
+    return err.message;
+  }
+}
+
+export const deleteSong = async (id: string) => {
+  try {
+    await songsRef().doc(id).delete();
     return null;
   } catch (err) {
     return err.message;
