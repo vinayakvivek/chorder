@@ -1,4 +1,4 @@
-import { Box, Button, Grid, makeStyles, Snackbar, TextField } from '@material-ui/core';
+import { Box, Button, Grid, Input, makeStyles, Snackbar, TextField } from '@material-ui/core';
 import { observer } from 'mobx-react';
 import React, { useCallback, useEffect, useState } from "react";
 import { useStores } from '../../hooks/store';
@@ -9,6 +9,7 @@ import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import { saveSong } from '../../service/db';
 import { Alert } from '@material-ui/lab';
+import { ChordBox } from './Bar';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -87,10 +88,15 @@ const Song = () => {
   }
 
   const [name, setName] = useState(song.name);
+  const [tempo, setTempo] = useState(song.tempo);
   useEffect(() => {
     song.setName(name);
     validateName();
   }, [song, name, validateName]);
+
+  useEffect(() => {
+    song.setTempo(tempo);
+  }, [song, tempo]);
 
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
@@ -107,7 +113,6 @@ const Song = () => {
       <Grid container direction="row" justify="space-between" alignItems="center">
         <Grid item>
           <Grid container direction="row" alignItems="center">
-
             <TextField
               className={classes.songNameTextField}
               InputProps={{
@@ -121,6 +126,14 @@ const Song = () => {
               error={!!nameError}
               onChange={(e) => setName(e.target.value)}
             />
+            <Box mx={2} />
+            <h3>Scale</h3>
+            <Box mx={1} />
+            <ChordBox chord={song.scale} />
+            <Box mx={2} />
+            <h3>Tempo</h3>
+            <Box mx={1} />
+            <Input type="number" style={{width: "50px"}} value={tempo} onChange={(e) => setTempo(parseInt(e.target.value))} />
             <Box mx={2} />
             <Button className={classes.iconButton} variant="outlined" size="small" onClick={() => transpose(true)}><AddIcon /></Button>
             <Box mx={1} />

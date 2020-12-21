@@ -38,7 +38,7 @@ class ServiceStore {
       new Chord('C#'),
     ]);
     const sampleLine = new Line([ sampleBar, sampleBar2 ], 1);
-    return new Song(uuidv4(), "My song", [sampleLine]);
+    return new Song(uuidv4(), "My song", [sampleLine], new Chord('C'), 80);
   }
 
   setAllSongs(songs: Song[]) {
@@ -46,7 +46,7 @@ class ServiceStore {
   }
 
   createSong() {
-    this.song = new Song(uuidv4(), "My song", []);
+    this.song = new Song(uuidv4(), "My song", [], new Chord('C'), 80);
   }
 
   setSong(song: Song) {
