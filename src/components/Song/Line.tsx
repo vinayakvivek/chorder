@@ -86,7 +86,7 @@ export const LineBox = ({ lineIndex, line }: LineBoxProps) => {
   }
 
   return (
-    <Grid container spacing={2} direction="column" alignItems="center">
+    <Grid container spacing={2} direction="column" alignItems="flex-start">
       <Grid container>
         <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} className={classes.moreButton}>
           <MoreVertIcon />
@@ -150,12 +150,15 @@ export const LineBox = ({ lineIndex, line }: LineBoxProps) => {
       </Grid>
       {
         line.showLyrics &&
-        <TextField
-          className={classes.lyricsText}
-          value={lyrics}
-          onChange={(e) => setLyrics(e.target.value)}
-          size="small"
-        />
+        <Box mx={5} style={{width: "700px"}}>
+          <TextField
+            className={classes.lyricsText}
+            value={lyrics}
+            onChange={(e) => setLyrics(e.target.value)}
+            size="small"
+            fullWidth
+          />
+        </Box>
       }
     </Grid>
   );

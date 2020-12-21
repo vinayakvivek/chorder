@@ -87,7 +87,7 @@ export const generateHtmlFromSong = (song: Song) => {
 
         .chord-text {
           margin: 0 20px;
-          font-size: 1.1em
+          font-size: 1em
         }
 
         .chord-divider {
@@ -98,7 +98,6 @@ export const generateHtmlFromSong = (song: Song) => {
 
         .line-repeat-count {
           padding: 5px;
-          font-size: 1.2em;
           margin-left: 50px;
           border: 1px solid grey;
           border-radius: 50%;
