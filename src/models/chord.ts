@@ -30,17 +30,15 @@ export class Chord {
   type: string;
   label: string = '';
   isEmpty: boolean;
-  inScale: boolean;
 
   resetLabel() {
     this.label = this.isEmpty ? '' : `${CHORD_BASES[this.base]}${this.type}`;
   }
 
-  constructor(base: number, type: string, inScale: boolean = false) {
+  constructor(base: number, type: string) {
     this.base = base;
     this.type = type;
     this.isEmpty = type === ChordType.empty;
-    this.inScale = inScale;
     this.resetLabel();
   }
 
@@ -121,14 +119,9 @@ export class Chord {
 export const createAllChords = () => {
   const chords: Chord[] = [];
   for (let b = 0; b < CHORD_BASES.length; ++b) {
-    chords.push(new Chord(b, ChordType.major, true));
+    chords.push(new Chord(b, ChordType.major));
     chords.push(new Chord(b, ChordType.minor));
   }
   chords.push(new Chord(0, ChordType.empty));
-  chords.sort((a, b) => {
-    if (a.inScale && b.inScale) return 0
-    if (a.inScale && !b.inScale) return -1
-    return 1
-  })
   return chords;
 }

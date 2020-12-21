@@ -1,6 +1,5 @@
 import { createMuiTheme, CssBaseline, ThemeProvider } from '@material-ui/core';
 import React, { useEffect } from 'react';
-import './App.css';
 import Auth from './components/Auth';
 import { initialize } from './service/auth';
 
