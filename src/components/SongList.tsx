@@ -41,7 +41,7 @@ const SongList = () => {
 
   return (
     <div>
-      <h2>Your songs</h2>
+      <h2>{songs.length ? 'Your songs' : 'You have no songs yet!'}</h2>
       <List>
         {
           songs.map(s => (
