@@ -33,4 +33,15 @@ export class Song {
   removeLastLine() {
     this.lines.pop();
   }
+
+  static fromJson(data: any) {
+    return new Song(data.name, data.lines.map((l: any) => Line.fromJson(l)));
+  }
+
+  toJson() {
+    return {
+      name: this.name,
+      lines: this.lines.map(l => l.toJson()),
+    };
+  }
 }

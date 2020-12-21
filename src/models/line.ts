@@ -47,4 +47,22 @@ export class Line {
   removeBar(index: number) {
     this.bars.splice(index, 1);
   }
+
+  static fromJson(data: any) {
+    const line = Line.init();
+    line.bars = data.bars.map((b: any) => Bar.fromJson(b));
+    line.repeatCount = data.repeatCount;
+    line.lyrics = data.lyrics;
+    line.showLyrics = data.showLyrics;
+    return line;
+  }
+
+  toJson() {
+    return {
+      bars: this.bars.map(b => b.toJson()),
+      repeatCount: this.repeatCount,
+      lyrics: this.lyrics,
+      showLyrics: this.showLyrics,
+    }
+  }
 }

@@ -98,6 +98,24 @@ export class Chord {
     return this.isEmpty === other.isEmpty ||
         (this.base === other.base && this.type === other.type);
   }
+
+  static fromJson(data: any) {
+    const c = Chord.init();
+    c.base = data.base;
+    c.type = data.type;
+    c.isEmpty = data.isEmpty;
+    c.label = data.label;
+    return c;
+  }
+
+  toJson() {
+    return {
+      base: this.base,
+      type: this.type,
+      label: this.label,
+      isEmpty: this.isEmpty,
+    };
+  }
 }
 
 export const createAllChords = () => {

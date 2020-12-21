@@ -28,4 +28,14 @@ export class Bar {
   removeLastChord() {
     this.chords.pop();
   }
+
+  static fromJson(data: any) {
+    return new Bar(data.chords.map((c: any) => Chord.fromJson(c)));
+  }
+
+  toJson() {
+    return {
+      chords: this.chords.map(c => c.toJson()),
+    };
+  }
 }
