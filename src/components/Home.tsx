@@ -22,7 +22,16 @@ const Home = () => {
         justify="space-between"
         style={{ width: '100wh', height: '50px' }}
       >
-        <h2>Chorder</h2>
+        <Grid item>
+          <Grid container alignItems="center">
+            <h2>Chorder</h2>
+            <Box mx={3}/>
+            {
+              serviceStore.songView &&
+              <Button onClick={() => serviceStore.showSongList()} variant="contained">My songs</Button>
+            }
+          </Grid>
+        </Grid>
         <Grid item>
           <Grid container alignItems="center">
             <h3>Hi {userStore.name}!</h3>
