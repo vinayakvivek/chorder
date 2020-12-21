@@ -31,3 +31,8 @@ export const getAllSongs = async () => {
   });
   serviceStore.setAllSongs(songs);
 }
+
+export const getSong = async (id: string): Promise<Song> => {
+  const doc = await songsRef().doc(id).get();
+  return Song.fromJson(doc.id, doc.data());
+}

@@ -4,11 +4,17 @@ import React from 'react';
 import { useStores } from '../hooks/store';
 import MusicNoteIcon from '@material-ui/icons/MusicNote';
 import DeleteIcon from '@material-ui/icons/Delete';
+import { getSong } from '../service/db';
 
 const SongList = () => {
 
   const { serviceStore } = useStores();
   const songs = serviceStore.allSongs;
+
+  const showSong = async (id: string) => {
+    serviceStore.setSong(await getSong(id));
+    serviceStore.showSongData();
+  }
 
   return (
     <div>
@@ -16,7 +22,7 @@ const SongList = () => {
       <List>
         {
           songs.map(s => (
-            <ListItem key={s.id} button onClick={() => console.log(s.name)}>
+            <ListItem key={s.id} button onClick={() => showSong(s.id)}>
               <ListItemIcon>
                 <MusicNoteIcon />
               </ListItemIcon>

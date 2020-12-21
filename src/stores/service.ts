@@ -45,6 +45,10 @@ class ServiceStore {
     this.allSongs = songs;
   }
 
+  setSong(song: Song) {
+    this.song = song;
+  }
+
   showSongList() {
     this.songView = false;
   }

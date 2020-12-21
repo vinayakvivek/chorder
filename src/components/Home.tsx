@@ -13,7 +13,7 @@ const Home = () => {
     getAllSongs();
   }, []);
 
-  const { userStore } = useStores();
+  const { userStore, serviceStore } = useStores();
   return (
     <Box style={{ margin: "12px 30px" }}>
       <Grid
@@ -34,8 +34,11 @@ const Home = () => {
       <Box m={2} />
       <Divider />
       <Box m={4} />
-      {/* <Song /> */}
-      <SongList/>
+      {
+        serviceStore.songView
+          ? <Song/>
+          : <SongList/>
+      }
     </Box>
   )
 }
