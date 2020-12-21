@@ -9,10 +9,6 @@ import SongList from './SongList';
 
 const Home = () => {
 
-  useEffect(() => {
-    getAllSongs();
-  }, []);
-
   const { userStore, serviceStore } = useStores();
   return (
     <Box style={{ margin: "12px 30px" }}>

@@ -1,15 +1,19 @@
 import { Box, Button, IconButton, List, ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText } from '@material-ui/core';
 import { observer } from 'mobx-react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useStores } from '../hooks/store';
 import MusicNoteIcon from '@material-ui/icons/MusicNote';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { getSong } from '../service/db';
+import { getAllSongs, getSong } from '../service/db';
 
 const SongList = () => {
 
   const { serviceStore } = useStores();
   const songs = serviceStore.allSongs;
+
+  useEffect(() => {
+    getAllSongs();
+  }, []);
 
   const showSong = async (id: string) => {
     serviceStore.setSong(await getSong(id));

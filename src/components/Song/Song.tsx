@@ -7,7 +7,7 @@ import { exportPdfFile, generateHtmlFromSong } from '../../utils';
 import { LineBox } from './Line';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
-import { createSong } from '../../service/db';
+import { createSong, saveSong } from '../../service/db';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,6 +32,24 @@ const Song = () => {
   const classes = useStyles();
   const store = useStores().serviceStore;
   const song = store.song;
+  const allNames = store.allSongs.filter(s => s.id !== song.id).map(s => s.name);
+
+  const [nameError, setNameError] = useState('');
+
+  const validateName = () => {
+    console.log(allNames);
+    setNameError('');
+    const name = song.name.trim();
+    if (!name.length) {
+      setNameError('Name cannot be empty');
+      return false;
+    }
+    if (allNames.includes(name)) {
+      setNameError('Name already exists, choose a different one');
+      return false;
+    }
+    return true;
+  }
 
   const exportPdf = () => {
     const html = generateHtmlFromSong(song);
@@ -39,7 +57,9 @@ const Song = () => {
   }
 
   const save = () => {
-    createSong(song);
+    if (validateName()) {
+      saveSong(song);
+    }
   }
 
   const transpose = (up: boolean) => {
@@ -59,6 +79,7 @@ const Song = () => {
   const [name, setName] = useState(song.name);
   useEffect(() => {
     song.setName(name);
+    validateName();
   }, [song, name]);
 
   return (
@@ -66,6 +87,7 @@ const Song = () => {
       <Grid container direction="row" justify="space-between" alignItems="center">
         <Grid item>
           <Grid container direction="row" alignItems="center">
+
             <TextField
               className={classes.songNameTextField}
               InputProps={{
@@ -75,6 +97,8 @@ const Song = () => {
               }}
               value={name}
               variant="filled"
+              helperText={nameError}
+              error={!!nameError}
               onChange={(e) => setName(e.target.value)}
             />
             <Box mx={2} />

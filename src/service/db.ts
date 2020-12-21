@@ -36,3 +36,9 @@ export const getSong = async (id: string): Promise<Song> => {
   const doc = await songsRef().doc(id).get();
   return Song.fromJson(doc.id, doc.data());
 }
+
+export const saveSong = async (song: Song) => {
+  console.log('Saving ..', song);
+  const res = await songsRef().doc(song.id).set(song.toJson());
+  console.log(res);
+}
