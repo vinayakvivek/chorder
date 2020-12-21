@@ -13,10 +13,17 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   songNameTextField: {
-    width: 500,
+    width: 300,
   },
   bigFont: {
-    fontSize: 30,
+    fontSize: 24,
+    height: 10,
+    padding: 15,
+  },
+  iconButton: {
+    padding: "5px",
+    width: "30px",
+    borderRadius: "5em"
   }
 }));
 
@@ -50,27 +57,27 @@ const Song = () => {
   }, [song, name]);
 
   return (
-    <div style={{ margin: "50px" }}>
-      <Box m={10} />
-      <Grid container direction="row">
-        <Typography variant="h4">
-          Song :
-        </Typography>
-        <Box mx={2} />
-        <TextField
-          className={classes.songNameTextField}
-          InputProps={{
-            classes: {
-              input: classes.bigFont,
-            },
-          }}
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <Box mx={2} />
-        <Button variant="outlined" size="small" onClick={() => transpose(true)}><AddIcon/></Button>
-        <Box mx={1} />
-        <Button variant="outlined" size="small" onClick={() => transpose(false)}><RemoveIcon/></Button>
+    <div>
+      <Grid container direction="row" justify="space-between" alignItems="center">
+        <Grid item>
+          <Grid container direction="row" alignItems="center">
+            <TextField
+              className={classes.songNameTextField}
+              InputProps={{
+                classes: {
+                  input: classes.bigFont,
+                },
+              }}
+              value={name}
+              variant="filled"
+              onChange={(e) => setName(e.target.value)}
+            />
+            <Box mx={2} />
+            <Button className={classes.iconButton} variant="outlined" size="small" onClick={() => transpose(true)}><AddIcon /></Button>
+            <Box mx={1} />
+            <Button className={classes.iconButton} variant="outlined" size="small" onClick={() => transpose(false)}><RemoveIcon /></Button>
+          </Grid>
+        </Grid>
         <Box mx={2} />
         <Button variant="contained" onClick={exportPdf}>Export</Button>
       </Grid>

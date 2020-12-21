@@ -62,14 +62,14 @@ export const LineBox = ({ line }: LineBoxProps) => {
   return (
     <Grid container spacing={2} direction="column">
       <Grid container>
-        { divider}
+        {divider}
         {
           line.bars.map((bar, index) => (
             <Fragment key={index}>
               <Grid item>
                 <BarBox bar={bar} />
               </Grid>
-              { divider}
+              {divider}
             </Fragment>
           ))
         }
@@ -84,25 +84,25 @@ export const LineBox = ({ line }: LineBoxProps) => {
                 <RemoveCircle />
               </IconButton>
             }
-            <Box mx={2}/>
+            <Box mx={2} />
             <TextField
               type="number"
               size="medium"
               value={repeat}
               onChange={(e) => setRepeat(parseInt(e.target.value))}
               InputProps={{
-                  inputProps: {
-                      max: 10, min: 1
-                  }
+                inputProps: {
+                  max: 10, min: 1
+                }
               }}
               label="repeat"
             />
-            <Box mx={2}/>
+            <Box mx={2} />
             <Button onClick={() => {
               line.toggleShowLyrics();
               store.refresh();
             }}>
-              { line.showLyrics ? 'Hide lyrics' : 'Show lyrics' }
+              {line.showLyrics ? 'Hide lyrics' : 'Show lyrics'}
             </Button>
           </Grid>
         </Grid>

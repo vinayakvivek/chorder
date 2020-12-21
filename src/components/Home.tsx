@@ -25,6 +25,7 @@ const Home = () => {
         </Grid>
       </Grid>
       <hr/>
+      <Box m={4} />
       <Song />
     </Box>
   )
