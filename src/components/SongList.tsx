@@ -16,6 +16,11 @@ const SongList = () => {
     serviceStore.showSongData();
   }
 
+  const createSong = () => {
+    serviceStore.createSong();
+    serviceStore.showSongData();
+  }
+
   return (
     <div>
       <h2>Your songs</h2>
@@ -37,7 +42,7 @@ const SongList = () => {
         }
       </List>
       <Box m={5}/>
-      <Button variant="contained">Create a new Song</Button>
+      <Button variant="contained" onClick={createSong}>Create a new Song</Button>
     </div>
   )
 }

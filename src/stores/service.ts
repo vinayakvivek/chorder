@@ -45,6 +45,10 @@ class ServiceStore {
     this.allSongs = songs;
   }
 
+  createSong() {
+    this.song = new Song(uuidv4(), "My song", []);
+  }
+
   setSong(song: Song) {
     this.song = song;
   }
