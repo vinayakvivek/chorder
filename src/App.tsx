@@ -1,11 +1,12 @@
 import { Button, createMuiTheme, CssBaseline, ThemeProvider } from '@material-ui/core';
 import { FirebaseAuthProvider, FirebaseAuthConsumer } from '@react-firebase/auth';
 import firebase from 'firebase';
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
+import Auth from './components/Auth';
 import Song from './components/Song';
 import { firebaseConfig } from './config';
-import { googleSignIn, signOut } from './service/auth';
+import { googleSignIn, initialize, signOut } from './service/auth';
 
 const theme = createMuiTheme({
   palette: {
@@ -15,29 +16,16 @@ const theme = createMuiTheme({
 
 function App() {
 
+  useEffect(() => {
+    initialize();
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <FirebaseAuthProvider {...firebaseConfig} firebase={firebase}>
-        <div className="App">
-          <Button onClick={googleSignIn}>
-            Sign In
-          </Button>
-          <Button onClick={signOut}>
-            Sign Out
-          </Button>
-          <FirebaseAuthConsumer>
-            {({ isSignedIn, user, providerId }) => {
-              return (
-                <pre style={{ height: 300, overflow: "auto" }}>
-                  {JSON.stringify({ isSignedIn, user, providerId }, null, 2)}
-                </pre>
-              );
-            }}
-          </FirebaseAuthConsumer>
-          {/* <Song /> */}
-        </div>
-      </FirebaseAuthProvider>
+      <div className="App">
+        <Auth />
+      </div>
     </ThemeProvider>
   );
 }
