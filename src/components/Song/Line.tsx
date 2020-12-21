@@ -1,9 +1,9 @@
 import { Box, Button, Divider, Grid, IconButton, makeStyles, Menu, MenuItem, TextField } from '@material-ui/core';
 import { AddCircle, RemoveCircle } from '@material-ui/icons';
 import React, { Fragment, useState, useEffect } from 'react';
-import { useStores } from '../hooks/store';
-import { Bar } from '../models/bar';
-import { Line } from '../models/line';
+import { useStores } from '../../hooks/store';
+import { Bar } from '../../models/bar';
+import { Line } from '../../models/line';
 import { BarBox } from './Bar';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 

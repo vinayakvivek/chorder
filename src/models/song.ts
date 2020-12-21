@@ -2,16 +2,18 @@ import { Line } from './line';
 
 export class Song {
 
+  id: string;
   name: string
   lines: Line[]
 
-  constructor(name: string, lines: Line[]) {
+  constructor(id: string, name: string, lines: Line[]) {
+    this.id = id;
     this.name = name;
     this.lines = lines;
   }
 
   transpose(up: boolean = true) {
-    return new Song(this.name, this.lines.map(l => l.transpose(up)));
+    return new Song(this.id, this.name, this.lines.map(l => l.transpose(up)));
   }
 
   setName(name: string) {
@@ -34,8 +36,8 @@ export class Song {
     this.lines.pop();
   }
 
-  static fromJson(data: any) {
-    return new Song(data.name, data.lines.map((l: any) => Line.fromJson(l)));
+  static fromJson(id: string, data: any) {
+    return new Song(id, data.name, data.lines.map((l: any) => Line.fromJson(l)));
   }
 
   toJson() {

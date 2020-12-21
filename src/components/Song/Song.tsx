@@ -1,13 +1,13 @@
 import { Box, Button, Grid, makeStyles, TextField } from '@material-ui/core';
 import { observer } from 'mobx-react';
 import React, { useEffect, useState } from "react";
-import { useStores } from '../hooks/store';
-import { Line } from '../models/line';
-import { exportPdfFile, generateHtmlFromSong } from '../utils';
+import { useStores } from '../../hooks/store';
+import { Line } from '../../models/line';
+import { exportPdfFile, generateHtmlFromSong } from '../../utils';
 import { LineBox } from './Line';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
-import { createSong } from '../service/db';
+import { createSong } from '../../service/db';
 
 const useStyles = makeStyles((theme) => ({
   root: {

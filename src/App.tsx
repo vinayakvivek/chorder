@@ -1,12 +1,8 @@
-import { Button, createMuiTheme, CssBaseline, ThemeProvider } from '@material-ui/core';
-import { FirebaseAuthProvider, FirebaseAuthConsumer } from '@react-firebase/auth';
-import firebase from 'firebase';
+import { createMuiTheme, CssBaseline, ThemeProvider } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import './App.css';
 import Auth from './components/Auth';
-import Song from './components/Song';
-import { firebaseConfig } from './config';
-import { googleSignIn, initialize, signOut } from './service/auth';
+import { initialize } from './service/auth';
 
 const theme = createMuiTheme({
   palette: {

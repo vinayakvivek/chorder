@@ -3,6 +3,7 @@ import { Bar } from '../models/bar';
 import { Chord, ChordType, createAllChords } from '../models/chord';
 import { Line } from '../models/line';
 import { Song } from '../models/song';
+import { v4 as uuidv4 } from 'uuid';
 
 class ServiceStore {
 
@@ -28,7 +29,7 @@ class ServiceStore {
       new Chord(6, ChordType.minor),
     ]);
     const sampleLine = new Line([ sampleBar, sampleBar2 ], 1);
-    this.song = new Song("My song", [sampleLine]);
+    this.song = new Song(uuidv4(), "My song", [sampleLine]);
   }
 
   transpose(up: boolean = true) {
