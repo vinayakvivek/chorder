@@ -1,10 +1,12 @@
 import { Grid, IconButton, makeStyles, TextField } from '@material-ui/core';
 import React from 'react';
 import { useStores } from '../../hooks/store';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import { Chord, ChordType } from '../../models/chord';
+import Autocomplete, { createFilterOptions } from '@material-ui/lab/Autocomplete';
+import { Chord } from '../../models/chord';
 import { Bar } from '../../models/bar';
 import { AddCircle, RemoveCircle } from '@material-ui/icons';
+
+const filter = createFilterOptions<Chord>();
 
 const useStyles = makeStyles((theme) => ({
   barButton: {
@@ -45,14 +47,15 @@ export const ChordBox = ({ chord }: ChordBoxProps) => {
         }
       }}
       onInputChange={(e, value) => {
-        if (value.length > 10) {
-          alert('chord too big');
-        }
         chord.updateFromString(value);
         store.refresh();
       }}
       fullWidth
       options={store.allChords}
+      filterOptions={(options, params) => {
+        params.inputValue = chord.label;
+        return filter(options, params);
+      }}
       disableClearable
       getOptionLabel={(option: Chord) => option.label}
       getOptionSelected={(option: Chord, value: Chord) => option.equals(value)}
@@ -79,7 +82,7 @@ export const BarBox = ({ bar }: BarBoxProps) => {
   const classes = useStyles();
 
   const addChord = () => {
-    bar.addChord(new Chord(0, ChordType.empty));
+    bar.addChord(new Chord(''));
     store.refresh();
   }
 

@@ -17,111 +17,101 @@ const CHORD_BASE_INDEX: any = {
   'G#': 11, 'A♭': 11,
 }
 
-export enum ChordType {
-  major = '',
-  minor = 'm',
-  empty = 'empty',
-  other = 'other',
-  repeat = 'repeat',
+const extractChordPart = (c: string): ChordPart | null => {
+  if (!c.length) return null;
+  let base = c[0].toUpperCase();
+  if (base > 'G' || base < 'A') return { base: '', type: c };
+  if (c.length > 1 &&
+     (c[1] === '♭' || c[1] === '#')) {
+      base += c[1];
+  }
+  return {
+    base,
+    type: c.slice(base.length),
+  }
+}
+
+interface ChordPart {
+  base: string,
+  type: string,
 }
 
 export class Chord {
-  base: number;
-  type: string;
   label: string = '';
-  isEmpty: boolean;
+  parts: ChordPart[] = [];
 
-  resetLabel() {
-    this.label = this.isEmpty ? '' : `${CHORD_BASES[this.base]}${this.type}`;
+  constructor(label: string) {
+    this.label = label.trim();
+    this.initParts();
   }
 
-  constructor(base: number, type: string) {
-    this.base = base;
-    this.type = type;
-    this.isEmpty = type === ChordType.empty;
+  resetLabel() {
+    this.label = this.parts.map(p => p.base + p.type).join(' ');
+  }
+
+  initParts() {
+    this.parts = [];
+    const strParts = this.label.split(/[ ,]+/);
+    for (const p of strParts) {
+      const cp = extractChordPart(p);
+      if (cp) {
+        this.parts.push(cp);
+      }
+    }
     this.resetLabel();
   }
 
   static init() {
-    return new Chord(0, ChordType.empty);
+    return new Chord('');
   }
 
   copyFrom(other: Chord) {
-    this.base = other.base;
-    this.type = other.type;
     this.label = other.label;
-    this.isEmpty = other.isEmpty;
+    this.initParts();
   }
 
   transpose(up: boolean = true) {
-    if (this.isEmpty || this.type === ChordType.repeat) {
-      return this;
-    } else {
-      const offset = up ? 1 : -1;
-      const b = (this.base + offset + CHORD_BASES.length) % CHORD_BASES.length;
-      return new Chord(b, this.type);
+    const offset = up ? 1 : -1;
+    const n = CHORD_BASES.length;
+    for (const p of this.parts) {
+      if (p.base) {
+        p.base = CHORD_BASES[(CHORD_BASE_INDEX[p.base] + offset + n) % n];
+      }
     }
+    this.resetLabel();
+    return new Chord(this.label);
   }
 
   updateFromString(label: string) {
-    label = label.trim();
-    if (label.length < 1) {
-      this.isEmpty = true;
-      return;
-    }
-    if (label === '%') {
-      this.label = label;
-      this.type = ChordType.repeat;
-      this.isEmpty = false;
-      return;
-    }
-    const base1 = label[0].toUpperCase();
-    if (base1 > 'G' || base1 < 'A') {
-      this.isEmpty = true;
-      return;
-    }
-    let base = base1;
-    if (label.length > 1) {
-      if (label[1] === '♭' || label[1] === '#') {
-        base += label[1];
-      }
-    }
-    this.base = CHORD_BASE_INDEX[base];
-    this.type = label.slice(base.length);
-    this.label = base + this.type
-    this.isEmpty = false;
+    this.label = label.trim();
+    this.initParts();
   }
 
   equals(other: Chord) {
-    return this.isEmpty === other.isEmpty ||
-        (this.base === other.base && this.type === other.type);
+    return this.label === other.label;
   }
 
   static fromJson(data: any) {
-    const c = Chord.init();
-    c.base = data.base;
-    c.type = data.type;
-    c.isEmpty = data.isEmpty;
-    c.label = data.label;
-    return c;
+    return new Chord(data.label);
   }
 
   toJson() {
     return {
-      base: this.base,
-      type: this.type,
       label: this.label,
-      isEmpty: this.isEmpty,
     };
   }
 }
 
 export const createAllChords = () => {
-  const chords: Chord[] = [];
-  for (let b = 0; b < CHORD_BASES.length; ++b) {
-    chords.push(new Chord(b, ChordType.major));
-    chords.push(new Chord(b, ChordType.minor));
+  const chords: Chord[] = [
+    new Chord('-'),
+    new Chord('%'),
+  ];
+  const types = ['', 'm', 'sus2', 'sus4', '7', 'M7', 'm7'];
+  for (const [key, ] of Object.entries(CHORD_BASE_INDEX)) {
+    types.forEach(t => chords.push(new Chord(key + t)));
   }
-  chords.push(new Chord(0, ChordType.empty));
   return chords;
 }
+
+console.log(new Chord('%   P   A# bsus4  '))

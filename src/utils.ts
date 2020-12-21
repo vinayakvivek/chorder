@@ -30,12 +30,6 @@ export const generateHtmlFromSong = (song: Song) => {
       const numChords = bar.chords.length;
       for (let i = 0; i < numChords; ++i) {
         let chordLabel = bar.chords[i].label;
-        if (i > 0 && chordLabel === bar.chords[i - 1].label) {
-          chordLabel = '%';
-        }
-        if (bar.chords[i].isEmpty) {
-          chordLabel = '-';
-        }
         lineDiv += `<span class="chord-text">${chordLabel}</span>`;
         if (i < numChords - 1) {
           lineDiv += `<div class="chord-divider"></div>`;
