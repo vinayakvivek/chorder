@@ -7,6 +7,7 @@ import { exportPdfFile, generateHtmlFromSong } from '../utils';
 import { LineBox } from './Line';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
+import { createSong } from '../service/db';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,6 +36,10 @@ const Song = () => {
   const exportPdf = () => {
     const html = generateHtmlFromSong(song);
     exportPdfFile(`${song.name}.html`, html);
+  }
+
+  const save = () => {
+    createSong(song);
   }
 
   const transpose = (up: boolean) => {
@@ -79,7 +84,13 @@ const Song = () => {
           </Grid>
         </Grid>
         <Box mx={2} />
-        <Button variant="contained" onClick={exportPdf}>Export</Button>
+        <Grid item>
+          <Grid container direction="row" alignItems="center">
+            <Button variant="contained" onClick={save}>Save</Button>
+            <Box mx={2} />
+            <Button variant="contained" onClick={exportPdf}>Export</Button>
+          </Grid>
+        </Grid>
       </Grid>
       <Box m={5} />
 
