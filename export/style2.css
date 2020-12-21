@@ -1,18 +1,10 @@
 body {
-  margin: 40px 20px;
+  margin: 50px 50px;
 }
 
 .title {
   margin-bottom: 30px;
 }
-
-.line-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-}
-
 
 .line {
   display: flex;
@@ -20,8 +12,8 @@ body {
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: center;
-  margin: 10px 0;
-  height: 40px;
+  margin: 20px 0;
+  height: 50px;
 }
 
 .bar-divider {
@@ -33,24 +25,19 @@ body {
 }
 
 .chord-text {
-  margin: 0 10px;
-  min-width: 30px;
-  text-align: center;
-}
-
-.chord-text.chord-text-part {
-  min-width: 20px;
+  margin: 0 20px;
+  font-size: 1em
 }
 
 .chord-divider {
   display: inline-block;
-  height: 100%;
+  height: 80%;
   border-left: 1px solid black;
 }
 
 .line-repeat-count {
   padding: 5px;
-  margin-left: 20px;
+  margin-left: 50px;
   border: 1px solid grey;
   border-radius: 50%;
 }
@@ -60,11 +47,5 @@ body {
 }
 
 .lyrics {
-  display: inline-block;
-  width: 100px;
-  max-width: 100px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: clip;
-  margin-right: 10px;
+  margin-bottom: 30px;
 }

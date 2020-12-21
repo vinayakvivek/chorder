@@ -21,7 +21,12 @@ export const generateHtmlFromSong = (song: Song) => {
   body += `<h1 class="title">${song.name}</h1>`;
   for (const line of song.lines) {
     if (line.bars.length === 0) {
-      body += `<div class="line"></div>`;
+      body += `
+        <div class="line-container">
+          <div class="lyrics"></div>
+          <div class="line"></div>
+        </div/>
+      `;
       continue;
     }
     let lineDiv = '';
@@ -29,8 +34,15 @@ export const generateHtmlFromSong = (song: Song) => {
       lineDiv += `<div class="bar-divider"></div>`;
       const numChords = bar.chords.length;
       for (let i = 0; i < numChords; ++i) {
-        let chordLabel = bar.chords[i].label;
-        lineDiv += `<span class="chord-text">${chordLabel}</span>`;
+        let chord = bar.chords[i];
+        if (chord.parts.length === 1) {
+          const p = chord.parts[0];
+          lineDiv += `<span class="chord-text">${(p.base + p.type) || '-'}</span>`;
+        } else {
+          for (const p of chord.parts) {
+            lineDiv += `<span class="chord-text chord-text-part">${(p.base + p.type) || '-'}</span>`;
+          }
+        }
         if (i < numChords - 1) {
           lineDiv += `<div class="chord-divider"></div>`;
         }
@@ -40,10 +52,12 @@ export const generateHtmlFromSong = (song: Song) => {
     if (line.repeatCount > 1) {
       lineDiv += `<span class="line-repeat-count">${line.repeatCount}</span>`;
     }
-    body += `<div class="line">${lineDiv}</div>`;
-    if (line.lyrics) {
-      body += `<div class="lyrics">${line.lyrics}</div>`;
-    }
+    body += `
+      <div class="line-container">
+        <div class="lyrics">${line.lyrics}</div>
+        <div class="line">${lineDiv}</div>
+      </div>
+    `;
   }
   return `
     <!DOCTYPE html>
@@ -54,12 +68,20 @@ export const generateHtmlFromSong = (song: Song) => {
       <title>Song</title>
       <style>
         body {
-          margin: 50px 50px;
+          margin: 40px 20px;
         }
 
         .title {
           margin-bottom: 30px;
         }
+
+        .line-container {
+          display: flex;
+          flex-direction: row;
+          justify-content: flex-start;
+          align-items: center;
+        }
+
 
         .line {
           display: flex;
@@ -67,8 +89,8 @@ export const generateHtmlFromSong = (song: Song) => {
           flex-wrap: wrap;
           justify-content: flex-start;
           align-items: center;
-          margin: 20px 0;
-          height: 50px;
+          margin: 10px 0;
+          height: 40px;
         }
 
         .bar-divider {
@@ -80,19 +102,24 @@ export const generateHtmlFromSong = (song: Song) => {
         }
 
         .chord-text {
-          margin: 0 20px;
-          font-size: 1em
+          margin: 0 10px;
+          min-width: 30px;
+          text-align: center;
+        }
+
+        .chord-text.chord-text-part {
+          min-width: 20px;
         }
 
         .chord-divider {
           display: inline-block;
-          height: 80%;
+          height: 100%;
           border-left: 1px solid black;
         }
 
         .line-repeat-count {
           padding: 5px;
-          margin-left: 50px;
+          margin-left: 20px;
           border: 1px solid grey;
           border-radius: 50%;
         }
@@ -102,7 +129,13 @@ export const generateHtmlFromSong = (song: Song) => {
         }
 
         .lyrics {
-          margin-bottom: 30px;
+          display: inline-block;
+          width: 100px;
+          max-width: 100px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: clip;
+          margin-right: 10px;
         }
       </style>
     </head>

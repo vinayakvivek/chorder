@@ -41,7 +41,7 @@ export class Chord {
   parts: ChordPart[] = [];
 
   constructor(label: string) {
-    this.label = label.trim();
+    this.label = label.trim() || '-';
     this.initParts();
   }
 
@@ -83,7 +83,7 @@ export class Chord {
   }
 
   updateFromString(label: string) {
-    this.label = label.trim();
+    this.label = label.trim() || '-';
     this.initParts();
   }
 
