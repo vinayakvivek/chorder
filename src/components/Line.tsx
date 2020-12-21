@@ -1,6 +1,5 @@
 import { Box, Button, Divider, Grid, IconButton, makeStyles, Menu, MenuItem, TextField } from '@material-ui/core';
 import { AddCircle, RemoveCircle } from '@material-ui/icons';
-import { observer } from 'mobx-react';
 import React, { Fragment, useState, useEffect } from 'react';
 import { useStores } from '../hooks/store';
 import { Bar } from '../models/bar';
@@ -24,10 +23,11 @@ const useStyles = makeStyles((theme) => ({
 
 
 interface LineBoxProps {
+  lineIndex: number,
   line: Line
 }
 
-export const LineBox = ({ line }: LineBoxProps) => {
+export const LineBox = ({ lineIndex, line }: LineBoxProps) => {
   const classes = useStyles();
   const store = useStores().serviceStore;
   const divider = (
@@ -73,6 +73,18 @@ export const LineBox = ({ line }: LineBoxProps) => {
     setAnchorEl(null);
   };
 
+  const insertLineAbove = () => {
+    store.song.addNewLineAbove(lineIndex);
+    store.refresh();
+    handleClose();
+  }
+
+  const removeLine = () => {
+    store.song.removeLine(lineIndex);
+    store.refresh();
+    handleClose();
+  }
+
   return (
     <Grid container spacing={2} direction="column" alignItems="center">
       <Grid container>
@@ -86,9 +98,8 @@ export const LineBox = ({ line }: LineBoxProps) => {
           open={Boolean(anchorEl)}
           onClose={handleClose}
         >
-          <MenuItem onClick={handleClose}>Profile</MenuItem>
-          <MenuItem onClick={handleClose}>My account</MenuItem>
-          <MenuItem onClick={handleClose}>Logout</MenuItem>
+          <MenuItem onClick={insertLineAbove}>Insert line above</MenuItem>
+          <MenuItem onClick={removeLine}>Remove this line</MenuItem>
         </Menu>
 
         {divider}

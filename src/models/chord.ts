@@ -22,6 +22,7 @@ export enum ChordType {
   minor = 'm',
   empty = 'empty',
   other = 'other',
+  repeat = 'repeat',
 }
 
 export class Chord {
@@ -55,7 +56,7 @@ export class Chord {
   }
 
   transpose(up: boolean = true) {
-    if (this.isEmpty) {
+    if (this.isEmpty || this.type === ChordType.repeat) {
       return this;
     } else {
       const offset = up ? 1 : -1;
@@ -65,11 +66,17 @@ export class Chord {
   }
 
   updateFromString(label: string) {
+    label = label.trim();
     if (label.length < 1) {
       this.isEmpty = true;
       return;
     }
-
+    if (label === '%') {
+      this.label = label;
+      this.type = ChordType.repeat;
+      this.isEmpty = false;
+      return;
+    }
     const base1 = label[0].toUpperCase();
     if (base1 > 'G' || base1 < 'A') {
       this.isEmpty = true;

@@ -22,6 +22,14 @@ export class Song {
     this.lines.push(line);
   }
 
+  addNewLineAbove(pos: number) {
+    this.lines.splice(pos, 0, Line.init());
+  }
+
+  removeLine(pos: number) {
+    this.lines.splice(pos, 1);
+  }
+
   removeLastLine() {
     this.lines.pop();
   }

@@ -1,4 +1,4 @@
-import { Box, Button, Grid, makeStyles, TextField, Typography } from '@material-ui/core';
+import { Box, Button, Grid, makeStyles, TextField } from '@material-ui/core';
 import { observer } from 'mobx-react';
 import React, { useEffect, useState } from "react";
 import { useStores } from '../hooks/store';
@@ -90,7 +90,7 @@ const Song = () => {
           {
             store.song.lines.map((line, index) => (
               <Grid item key={index}>
-                <LineBox line={line} />
+                <LineBox lineIndex={index} line={line} />
                 <Box my={2} />
               </Grid>
             ))

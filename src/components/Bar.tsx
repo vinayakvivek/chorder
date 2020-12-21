@@ -5,7 +5,6 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { Chord, ChordType } from '../models/chord';
 import { Bar } from '../models/bar';
 import { AddCircle, RemoveCircle } from '@material-ui/icons';
-import { observer } from 'mobx-react';
 
 const useStyles = makeStyles((theme) => ({
   barButton: {

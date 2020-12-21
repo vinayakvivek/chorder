@@ -33,6 +33,9 @@ export const generateHtmlFromSong = (song: Song) => {
         if (i > 0 && chordLabel === bar.chords[i - 1].label) {
           chordLabel = '%';
         }
+        if (bar.chords[i].isEmpty) {
+          chordLabel = '-';
+        }
         lineDiv += `<span class="chord-text">${chordLabel}</span>`;
         if (i < numChords - 1) {
           lineDiv += `<div class="chord-divider"></div>`;
@@ -78,8 +81,8 @@ export const generateHtmlFromSong = (song: Song) => {
           display: inline-block;
           height: 100%;
           width: 3px;
-          border-left: 3px solid black;
-          border-right: 3px solid black;
+          border-left: 2px solid black;
+          border-right: 2px solid black;
         }
 
         .chord-text {
