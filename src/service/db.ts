@@ -1,6 +1,7 @@
 import { Song } from '../models/song';
 import firebase from 'firebase';
 import { userStore } from '../stores/user';
+import { serviceStore } from '../stores/service';
 
 const userRef = () => {
   const db = firebase.firestore();
@@ -12,10 +13,7 @@ const songsRef = () => {
 }
 
 export const createSong = (song: Song) => {
-  const uid = userStore.userId;
   const data = song.toJson();
-  // const s = Song.fromJson(data);
-  // console.log(s);
   songsRef().add(data)
     .then(res => {
       console.log(res);
@@ -27,7 +25,9 @@ export const createSong = (song: Song) => {
 
 export const getAllSongs = async () => {
   const snapshot = await songsRef().get();
+  const songs: Song[] = [];
   snapshot.forEach(doc => {
-    console.log(doc.id, '=>', Song.fromJson(doc.id, doc.data()));
+    songs.push(Song.fromJson(doc.id, doc.data()));
   });
+  serviceStore.setAllSongs(songs);
 }
