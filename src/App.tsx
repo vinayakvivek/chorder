@@ -2,6 +2,7 @@ import { createMuiTheme, CssBaseline, ThemeProvider } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import Auth from './components/Auth';
 import { initialize } from './service/auth';
+import './App.css'
 
 const theme = createMuiTheme({
   palette: {

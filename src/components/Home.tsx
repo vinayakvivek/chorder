@@ -10,7 +10,7 @@ const Home = () => {
 
   const { userStore, serviceStore } = useStores();
   return (
-    <Box style={{ margin: "12px 30px" }}>
+    <Box className="home-container">
       <Grid
         container
         alignItems="center"
@@ -20,7 +20,7 @@ const Home = () => {
         <Grid item>
           <Grid container alignItems="center">
             <h2>Chorder</h2>
-            <Box mx={3}/>
+            <Box mx={3} />
             {
               serviceStore.songView &&
               <Button onClick={() => serviceStore.showSongList()} variant="contained">My songs</Button>
@@ -30,20 +30,21 @@ const Home = () => {
         <Grid item>
           <Grid container alignItems="center">
             <h3>Hi {userStore.name}!</h3>
-            <Box mx={3}/>
+            <Box mx={3} />
             <Button onClick={signOut} color="secondary">Sign Out</Button>
           </Grid>
         </Grid>
       </Grid>
       <Box m={2} />
       <Divider />
-      <Box m={4} style={{
-      }} />
-      {
-        serviceStore.songView
-          ? <Song/>
-          : <SongList/>
-      }
+      <Box m={4} />
+      <div className="content-container">
+        {
+          serviceStore.songView
+            ? <Song />
+            : <SongList />
+        }
+      </div>
     </Box>
   )
 }

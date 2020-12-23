@@ -1,0 +1,32 @@
+.home-container {
+  margin: 12px 30px;
+  height: 95vh;
+  overflow: hidden;
+}
+
+.content-container {
+  height: 90vh;
+  max-height: 90vh;
+  overflow: auto;
+  padding-right: 50px;
+}
+
+/* width */
+.content-container::-webkit-scrollbar {
+  width: 3px;
+}
+
+/* Track */
+.content-container::-webkit-scrollbar-track {
+  background: #757575;
+}
+
+/* Handle */
+.content-container::-webkit-scrollbar-thumb {
+  background: rgb(206, 206, 206);
+}
+
+/* Handle on hover */
+.content-container::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
