@@ -26,10 +26,16 @@ export const createSong = (song: Song) => {
 
 export const getAllSongs = async () => {
   const snapshot = await songsRef().get();
-  const songs: Song[] = [];
+  const docs: any[] = [];
   snapshot.forEach(doc => {
-    songs.push(Song.fromJson(doc.id, doc.data()));
+    docs.push({
+      id: doc.id,
+      ...doc.data(),
+    });
   });
+  docs.forEach(d => d.serverTimestamp = d.serverTimestamp || 0);  // for backward compatibility
+  docs.sort((a, b) => (a.serverTimestamp < b.serverTimestamp) ? 1 : -1)
+  const songs = docs.map(d => Song.fromJson(d.id, d));
   serviceStore.setAllSongs(songs);
 }
 
@@ -40,7 +46,9 @@ export const getSong = async (id: string): Promise<Song> => {
 
 export const saveSong = async (song: Song) => {
   try {
-    await songsRef().doc(song.id).set(song.toJson());
+    const data: any = song.toJson();
+    data.serverTimestamp = new Date().getTime();
+    await songsRef().doc(song.id).set(data);
     return null;
   } catch (err) {
     return err.message;
