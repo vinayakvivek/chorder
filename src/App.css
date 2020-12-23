@@ -32,6 +32,7 @@
 .song-lines-container {
   height: 90%;
   overflow: auto;
+  overflow-x: hidden;
 }
 
 .song-lines-container::-webkit-scrollbar {
@@ -41,7 +42,7 @@
   background: #ffffff;
 }
 .song-lines-container::-webkit-scrollbar-thumb {
-  background: rgb(2, 2, 2);
+  background: rgb(83, 83, 83);
 }
 .song-lines-container::-webkit-scrollbar-thumb:hover {
   background: #555;
