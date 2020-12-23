@@ -148,6 +148,16 @@ export const scaleChordLabels = (scale: Chord): string[] => {
       CHORD_BASES[(b + 9) % n] + 'm',
       CHORD_BASES[(b + 11) % n] + 'dim',
     ];
+  } else if (type === 'm') {
+    return [
+      CHORD_BASES[b] + 'm',
+      CHORD_BASES[(b + 2) % n],
+      CHORD_BASES[(b + 3) % n],
+      CHORD_BASES[(b + 5) % n] + 'm',
+      CHORD_BASES[(b + 7) % n] + 'm',
+      CHORD_BASES[(b + 8) % n],
+      CHORD_BASES[(b + 10) % n],
+    ];
   }
   return [];
 }
