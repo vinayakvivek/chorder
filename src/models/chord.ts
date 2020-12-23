@@ -22,8 +22,8 @@ const extractChordPart = (c: string): ChordPart | null => {
   let base = c[0].toUpperCase();
   if (base > 'G' || base < 'A') return { base: '', type: c };
   if (c.length > 1 &&
-     (c[1] === '♭' || c[1] === '#')) {
-      base += c[1];
+    (c[1] === '♭' || c[1] === '#')) {
+    base += c[1];
   }
   return {
     base,
@@ -41,7 +41,11 @@ export class Chord {
   parts: ChordPart[] = [];
 
   constructor(label: string) {
-    this.label = label.trim() || '-';
+    this.reset(label);
+  }
+
+  reset(label: string) {
+    this.label = label.trim();
     this.initParts();
   }
 
@@ -51,12 +55,16 @@ export class Chord {
 
   initParts() {
     this.parts = [];
-    const strParts = this.label.split(/[ ,]+/);
-    for (const p of strParts) {
-      const cp = extractChordPart(p);
-      if (cp) {
-        this.parts.push(cp);
+    if (this.label) {
+      const strParts = this.label.split(/[ ,]+/);
+      for (const p of strParts) {
+        const cp = extractChordPart(p);
+        if (cp) {
+          this.parts.push(cp);
+        }
       }
+    } else {
+      this.parts.push({ base: '', type: '' });
     }
     this.resetLabel();
   }
@@ -87,8 +95,7 @@ export class Chord {
   }
 
   updateFromString(label: string) {
-    this.label = label.trim() || '-';
-    this.initParts();
+    this.reset(label);
   }
 
   equals(other: Chord) {
@@ -112,7 +119,7 @@ export const createAllChords = () => {
     new Chord('%'),
   ];
   const types = ['', 'm', 'sus2', 'sus4', '7', 'M7', 'm7'];
-  for (const [key, ] of Object.entries(CHORD_BASE_INDEX)) {
+  for (const [key,] of Object.entries(CHORD_BASE_INDEX)) {
     types.forEach(t => chords.push(new Chord(key + t)));
   }
   return chords;
