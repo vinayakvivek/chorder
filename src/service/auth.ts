@@ -1,6 +1,7 @@
-import firebase from 'firebase';
 import { firebaseConfig } from '../config';
 import { userStore } from '../stores/user';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
 export const initialize = () => {
   firebase.initializeApp(firebaseConfig);

@@ -1,7 +1,8 @@
 import { Song } from '../models/song';
-import firebase from 'firebase';
 import { userStore } from '../stores/user';
 import { serviceStore } from '../stores/service';
+import firebase from 'firebase/app';
+import 'firebase/firestore';
 
 const userRef = () => {
   const db = firebase.firestore();

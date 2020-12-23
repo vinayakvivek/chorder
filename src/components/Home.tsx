@@ -37,7 +37,8 @@ const Home = () => {
       </Grid>
       <Box m={2} />
       <Divider />
-      <Box m={4} />
+      <Box m={4} style={{
+      }} />
       {
         serviceStore.songView
           ? <Song/>

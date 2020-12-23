@@ -133,7 +133,7 @@ const Song = () => {
             <Box mx={2} />
             <h3>Tempo</h3>
             <Box mx={1} />
-            <Input type="number" style={{width: "50px"}} value={tempo} onChange={(e) => setTempo(parseInt(e.target.value))} />
+            <Input type="number" style={{width: "50px"}} value={tempo || ''} onChange={(e) => setTempo(parseInt(e.target.value))} />
             <Box mx={2} />
             <Button className={classes.iconButton} variant="outlined" size="small" onClick={() => transpose(true)}><AddIcon /></Button>
             <Box mx={1} />

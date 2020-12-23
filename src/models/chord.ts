@@ -39,6 +39,7 @@ interface ChordPart {
 export class Chord {
   label: string = '';
   parts: ChordPart[] = [];
+  inScale: boolean = false;
 
   constructor(label: string) {
     this.reset(label);
@@ -125,4 +126,24 @@ export const createAllChords = () => {
   return chords;
 }
 
-console.log(new Chord('%   P   A# bsus4  '))
+export const scaleChordLabels = (scale: Chord): string[] => {
+  if (!scale.isCanonical) {
+    return [];
+  }
+  const b = CHORD_BASE_INDEX[scale.parts[0].base];
+  const type = scale.parts[0].type;
+  const n = CHORD_BASES.length;
+  if (type === '') {
+    // major scale
+    return [
+      CHORD_BASES[b],
+      CHORD_BASES[(b + 2) % n] + 'm',
+      CHORD_BASES[(b + 4) % n] + 'm',
+      CHORD_BASES[(b + 5) % n],
+      CHORD_BASES[(b + 7) % n],
+      CHORD_BASES[(b + 9) % n] + 'm',
+      CHORD_BASES[(b + 11) % n] + 'dim',
+    ];
+  }
+  return [];
+}

@@ -59,7 +59,7 @@ export const ChordBox = ({ chord }: ChordBoxProps) => {
       disableClearable
       getOptionLabel={(option: Chord) => option.label}
       getOptionSelected={(option: Chord, value: Chord) => option.equals(value)}
-      // groupBy={(option) => option.inScale ? 'In scale' : 'Others'}
+      groupBy={(option) => option.inScale ? 'In scale' : 'Others'}
       style={{ width: 100, padding: 0, }}
       renderInput={(params) => (
         <TextField {...params} className={classes.input} variant="outlined" />

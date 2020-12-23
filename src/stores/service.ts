@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx';
 import { Bar } from '../models/bar';
-import { Chord, createAllChords } from '../models/chord';
+import { Chord, createAllChords, scaleChordLabels } from '../models/chord';
 import { Line } from '../models/line';
 import { Song } from '../models/song';
 import { v4 as uuidv4 } from 'uuid';
@@ -38,7 +38,7 @@ class ServiceStore {
       new Chord('C#'),
     ]);
     const sampleLine = new Line([ sampleBar, sampleBar2 ], 1);
-    return new Song(uuidv4(), "My song", [sampleLine], new Chord('C'), 80);
+    return new Song(uuidv4(), "My song", [sampleLine], new Chord('A'), 80);
   }
 
   setAllSongs(songs: Song[]) {
@@ -46,11 +46,19 @@ class ServiceStore {
   }
 
   createSong() {
-    this.song = new Song(uuidv4(), "My song", [], new Chord('C'), 80);
+    this.setSong(new Song(uuidv4(), "My song", [], new Chord('C'), 80));
   }
 
   setSong(song: Song) {
     this.song = song;
+    const scaleChords = scaleChordLabels(this.song.scale);
+    this.allChords.forEach(c => c.inScale = scaleChords.includes(c.label));
+    this.allChords[0].inScale = true;
+    this.allChords[1].inScale = true;
+    this.allChords = [
+      ...this.allChords.filter(c => c.inScale),
+      ...this.allChords.filter(c => !c.inScale),
+    ];
   }
 
   showSongList() {
@@ -62,7 +70,7 @@ class ServiceStore {
   }
 
   transpose(up: boolean = true) {
-    this.song = this.song.transpose(up);
+    this.setSong(this.song.transpose(up));
   }
 
   setId(id: string) {
