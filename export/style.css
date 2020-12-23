@@ -72,3 +72,21 @@ body {
   text-overflow: clip;
   margin-right: 10px;
 }
+
+@font-face {
+  font-family: barbeds;
+  src: url(./barbeds.TTF);
+}
+
+.watermark {
+  position: absolute;
+  top: 40%;
+  left: 3%;
+  transform: rotate(-50deg);
+  z-index: -1;
+  font-family: barbeds;
+  font-size: 10em;
+  letter-spacing: 20px;
+  opacity: 0.1;
+  color: grey;
+}

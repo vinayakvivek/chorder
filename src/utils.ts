@@ -26,6 +26,7 @@ export const generateHtmlFromSong = (song: Song) => {
   } else if (scaleLabel || tempoLabel) {
     subTitle = `(${scaleLabel || tempoLabel})`;
   }
+  // body += `<span class="watermark">MAJOR3</span>`;
   body += `<p class="title"><strong>${song.name}</strong> <span>${subTitle}</span></p>`;
   for (const line of song.lines) {
     if (line.bars.length === 0) {
