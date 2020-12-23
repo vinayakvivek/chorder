@@ -11,22 +11,38 @@
   padding-right: 50px;
 }
 
-/* width */
 .content-container::-webkit-scrollbar {
   width: 3px;
 }
-
-/* Track */
 .content-container::-webkit-scrollbar-track {
   background: #757575;
 }
-
-/* Handle */
 .content-container::-webkit-scrollbar-thumb {
   background: rgb(206, 206, 206);
 }
-
-/* Handle on hover */
 .content-container::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.song-container {
+  height: 100%;
+  overflow: hidden;
+}
+
+.song-lines-container {
+  height: 90%;
+  overflow: auto;
+}
+
+.song-lines-container::-webkit-scrollbar {
+  width: 5px;
+}
+.song-lines-container::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+.song-lines-container::-webkit-scrollbar-thumb {
+  background: rgb(2, 2, 2);
+}
+.song-lines-container::-webkit-scrollbar-thumb:hover {
   background: #555;
 }

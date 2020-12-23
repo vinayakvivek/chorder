@@ -29,7 +29,7 @@ const Home = () => {
         </Grid>
         <Grid item>
           <Grid container alignItems="center">
-            <h3>Hi {userStore.name}!</h3>
+            <h3>Hi {userStore.name}</h3>
             <Box mx={3} />
             <Button onClick={signOut} color="secondary">Sign Out</Button>
           </Grid>

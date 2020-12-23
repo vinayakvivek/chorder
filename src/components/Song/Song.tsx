@@ -109,7 +109,7 @@ const Song = () => {
   };
 
   return (
-    <div>
+    <div className="song-container">
       <Grid container direction="row" justify="space-between" alignItems="center">
         <Grid item>
           <Grid container direction="row" alignItems="center">
@@ -156,7 +156,7 @@ const Song = () => {
       </Grid>
       <Box m={5} />
 
-      <Box>
+      <Box className="song-lines-container">
         <Grid container spacing={3} direction="column">
           <span style={{ display: "none" }}>{store.refreshCounter}</span>
           <Box mx={2} />

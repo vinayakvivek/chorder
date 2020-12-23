@@ -63,8 +63,8 @@ class ServiceStore {
     this.allChords.splice(2, scaleChords.length, ...scaleChords);
 
     // this.allChords.forEach(c => c.inScale = scaleChords.includes(c.label));
-    this.allChords[0].inScale = true;
-    this.allChords[1].inScale = true;
+    // this.allChords[0].inScale = true;
+    // this.allChords[1].inScale = true;
     // this.allChords = [
     //   ...this.allChords.filter(c => c.inScale),
     //   ...this.allChords.filter(c => !c.inScale),
