@@ -74,6 +74,10 @@ export class Chord {
     return (this.parts.length === 1 && this.parts[0].base);
   }
 
+  get shouldHighlight() {
+    return this.inScale && !['-', '%'].includes(this.label);
+  }
+
   static init() {
     return new Chord('');
   }

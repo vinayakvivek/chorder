@@ -1,0 +1,34 @@
+
+  /* width */
+.MuiAutocomplete-listbox::-webkit-scrollbar {
+  width: 2px;
+}
+
+/* Track */
+.MuiAutocomplete-listbox::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+.MuiAutocomplete-listbox::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+.MuiAutocomplete-listbox::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.MuiAutocomplete-paper {
+  padding: 0;
+}
+
+.MuiAutocomplete-listbox {
+  padding: 0;
+}
+
+.MuiAutocomplete-option {
+  padding: 0px !important;
+  margin-bottom: 2px;
+  /* background-color: red; */
+}

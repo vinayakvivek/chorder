@@ -5,6 +5,7 @@ import Autocomplete, { createFilterOptions } from '@material-ui/lab/Autocomplete
 import { Chord } from '../../models/chord';
 import { Bar } from '../../models/bar';
 import { AddCircle, RemoveCircle } from '@material-ui/icons';
+import './style.css';
 
 const filter = createFilterOptions<Chord>();
 
@@ -29,9 +30,10 @@ const useStyles = makeStyles((theme) => ({
 
 interface ChordBoxProps {
   chord: Chord
+  isScale: boolean
 }
 
-export const ChordBox = ({ chord }: ChordBoxProps) => {
+export const ChordBox = ({ chord, isScale }: ChordBoxProps) => {
   const classes = useStyles();
   const store = useStores().serviceStore;
 
@@ -48,6 +50,9 @@ export const ChordBox = ({ chord }: ChordBoxProps) => {
       }}
       onInputChange={(e, value) => {
         chord.updateFromString(value);
+        if (isScale) {
+          store.updateScaleChords();
+        }
         store.refresh();
       }}
       fullWidth
@@ -63,6 +68,16 @@ export const ChordBox = ({ chord }: ChordBoxProps) => {
       style={{ width: 100, padding: 0, }}
       renderInput={(params) => (
         <TextField {...params} className={classes.input} variant="outlined" />
+      )}
+      renderOption={(option) => (
+        <div style={{
+          backgroundColor: option.shouldHighlight ? "rgba(0, 255, 0, 0.3)" : "transparent",
+          width: "100%",
+          padding: "2px 0 2px 10px",
+          // borderRadius: "5px"
+        }}>
+          <span>{option.label}</span>
+        </div>
       )}
       classes={{
         popupIndicator: classes.popupIndicator,
@@ -92,23 +107,23 @@ export const BarBox = ({ bar }: BarBoxProps) => {
   }
 
   return (
-    <Grid container spacing={2} direction="row" style={{margin: "5px 0"}}>
+    <Grid container spacing={2} direction="row" style={{ margin: "5px 0" }}>
       {
         bar.chords.map((chord, index) => (
           <Grid item key={index}>
-            <ChordBox chord={chord} />
+            <ChordBox chord={chord} isScale={false} />
           </Grid>
         ))
       }
       <Grid item>
         <Grid container direction="column">
           <IconButton aria-label="add-chord" size="small" onClick={addChord}>
-            <AddCircle className={classes.barButton}/>
+            <AddCircle className={classes.barButton} />
           </IconButton>
           {
             bar.chords.length > 1 &&
             <IconButton aria-label="remove-chord" size="small" color="secondary" onClick={removeChord}>
-              <RemoveCircle className={classes.barButton}/>
+              <RemoveCircle className={classes.barButton} />
             </IconButton>
           }
         </Grid>

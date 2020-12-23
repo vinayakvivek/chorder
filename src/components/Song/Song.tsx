@@ -129,7 +129,7 @@ const Song = () => {
             <Box mx={2} />
             <h3>Scale</h3>
             <Box mx={1} />
-            <ChordBox chord={song.scale} />
+            <ChordBox chord={song.scale} isScale={true} />
             <Box mx={2} />
             <h3>Tempo</h3>
             <Box mx={1} />

@@ -51,14 +51,24 @@ class ServiceStore {
 
   setSong(song: Song) {
     this.song = song;
-    const scaleChords = scaleChordLabels(this.song.scale);
-    this.allChords.forEach(c => c.inScale = scaleChords.includes(c.label));
+    this.updateScaleChords();
+  }
+
+  updateScaleChords() {
+    const scaleChords = scaleChordLabels(this.song.scale).map(cl => {
+      const c = new Chord(cl);
+      c.inScale = true;
+      return c;
+    });
+    this.allChords.splice(2, scaleChords.length, ...scaleChords);
+
+    // this.allChords.forEach(c => c.inScale = scaleChords.includes(c.label));
     this.allChords[0].inScale = true;
     this.allChords[1].inScale = true;
-    this.allChords = [
-      ...this.allChords.filter(c => c.inScale),
-      ...this.allChords.filter(c => !c.inScale),
-    ];
+    // this.allChords = [
+    //   ...this.allChords.filter(c => c.inScale),
+    //   ...this.allChords.filter(c => !c.inScale),
+    // ];
   }
 
   showSongList() {
