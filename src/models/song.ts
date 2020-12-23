@@ -51,7 +51,7 @@ export class Song {
       data.name,
       data.lines.map((l: any) => Line.fromJson(l)),
       Chord.fromJson(data.scale || new Chord('')),
-      data.tempo,
+      data.tempo || null,
     );
   }
 
