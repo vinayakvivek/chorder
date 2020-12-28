@@ -176,7 +176,7 @@ const Song = () => {
               </Button>
               <Box m={1} />
               {
-                store.song.lines.length > 1 &&
+                store.song.lines.length > 0 &&
                 <Button aria-label="remove-line" size="small" color="secondary" onClick={removeLine}>
                   Remove last line
                 </Button>

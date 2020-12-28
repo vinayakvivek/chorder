@@ -5,6 +5,7 @@ import { useStores } from '../hooks/store';
 import { signOut } from '../service/auth';
 import Song from './Song/Song';
 import SongList from './SongList';
+import LibraryMusicIcon from '@material-ui/icons/LibraryMusic';
 
 const Home = () => {
 
@@ -19,7 +20,9 @@ const Home = () => {
       >
         <Grid item>
           <Grid container alignItems="center">
-            <h2>Chorder</h2>
+            <LibraryMusicIcon />
+            <Box mx={1} />
+            <h1>Chorder</h1>
             <Box mx={3} />
             {
               serviceStore.songView &&

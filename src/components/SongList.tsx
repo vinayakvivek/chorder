@@ -1,4 +1,4 @@
-import { Box, Button, Dialog, DialogActions, DialogTitle, Fab, Grid, IconButton, List, ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText } from '@material-ui/core';
+import { Box, Button, CircularProgress, Dialog, DialogActions, DialogTitle, Fab, Grid, IconButton, List, ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText } from '@material-ui/core';
 import { observer } from 'mobx-react';
 import React, { Fragment, useEffect, useState } from 'react';
 import { useStores } from '../hooks/store';
@@ -11,9 +11,13 @@ const SongList = () => {
 
   const { serviceStore } = useStores();
   const songs = serviceStore.allSongs;
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getAllSongs();
+    setLoading(true);
+    getAllSongs()
+      .then(() => setLoading(false))
+      .catch(err => console.error(err.message));
   }, []);
 
   const showSong = async (id: string) => {
@@ -42,53 +46,57 @@ const SongList = () => {
 
   return (
     <Fragment>
-      <div>
-        <Grid container direction="row">
-          <h2>{songs.length ? 'Your songs' : 'You have no songs yet!'}</h2>
-          <Box m={2} />
-          <Fab className="add-fab" color="primary" aria-label="add" onClick={createSong}>
-            <AddIcon />
-          </Fab>
-        </Grid>
-        {/* <Box m={5} />
-        <Button variant="contained" onClick={createSong}>Create a new Song</Button> */}
-        <List>
-          {
-            songs.map(s => (
-              <ListItem key={s.id} button onClick={() => showSong(s.id)}>
-                <ListItemIcon>
-                  <MusicNoteIcon />
-                </ListItemIcon>
-                <ListItemText primary={s.name} />
-                <ListItemSecondaryAction>
-                  <IconButton edge="end" aria-label="delete" onClick={() => {
-                    setDeleteId(s.id);
-                    setDeleteOpen(true);
-                  }}>
-                    <DeleteIcon />
-                  </IconButton>
-                </ListItemSecondaryAction>
-              </ListItem>
-            ))
-          }
-        </List>
+      {
+        loading
+          ? <CircularProgress />
+          : <div>
+            <Grid container direction="row">
+              <h2>{songs.length ? 'Your songs' : 'You have no songs yet!'}</h2>
+              <Box m={2} />
+              <Fab className="add-fab" color="primary" aria-label="add" onClick={createSong}>
+                <AddIcon />
+              </Fab>
+            </Grid>
+            {/* <Box m={5} />
+          <Button variant="contained" onClick={createSong}>Create a new Song</Button> */}
+            <List>
+              {
+                songs.map(s => (
+                  <ListItem key={s.id} button onClick={() => showSong(s.id)}>
+                    <ListItemIcon>
+                      <MusicNoteIcon />
+                    </ListItemIcon>
+                    <ListItemText primary={s.name} />
+                    <ListItemSecondaryAction>
+                      <IconButton edge="end" aria-label="delete" onClick={() => {
+                        setDeleteId(s.id);
+                        setDeleteOpen(true);
+                      }}>
+                        <DeleteIcon />
+                      </IconButton>
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                ))
+              }
+            </List>
 
-        <Dialog
-          open={deleteOpen}
-          onClose={handleDeleteClose}
-          aria-labelledby="delete-confirm"
-        >
-          <DialogTitle id="delete-confirm">{"Delete this song?"}</DialogTitle>
-          <DialogActions>
-            <Button onClick={handleDeleteClose} color="primary">
-              Cancel
-            </Button>
-            <Button onClick={handleDelete} color="secondary" autoFocus>
-              Ok
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
+            <Dialog
+              open={deleteOpen}
+              onClose={handleDeleteClose}
+              aria-labelledby="delete-confirm"
+            >
+              <DialogTitle id="delete-confirm">{"Delete this song?"}</DialogTitle>
+              <DialogActions>
+                <Button onClick={handleDeleteClose} color="primary">
+                  Cancel
+              </Button>
+                <Button onClick={handleDelete} color="secondary" autoFocus>
+                  Ok
+              </Button>
+              </DialogActions>
+            </Dialog>
+          </div>
+      }
     </Fragment>
   )
 }
