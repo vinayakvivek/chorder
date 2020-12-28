@@ -49,3 +49,9 @@
 .song-lines-container::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
+.add-fab {
+  /* position: absolute;
+  top: 60vh;
+  left: 75vw; */
+}
