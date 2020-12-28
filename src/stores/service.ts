@@ -1,15 +1,14 @@
-import { makeAutoObservable } from 'mobx';
-import { Bar } from '../models/bar';
+import { computed, makeAutoObservable } from 'mobx';
 import { Chord, createAllChords, scaleChordLabels } from '../models/chord';
-import { Line } from '../models/line';
 import { Song } from '../models/song';
-import { v4 as uuidv4 } from 'uuid';
 
 class ServiceStore {
 
   id: string = '';
 
   allChords: Chord[] = [];
+
+  scaleChords: Chord[] = [];
 
   allSongs: Song[];
 
@@ -19,26 +18,21 @@ class ServiceStore {
 
   refreshCounter: number = 0;
 
+  @computed
+  get optionChords() {
+    return [
+      new Chord('-'),
+      new Chord('%'),
+      ...this.scaleChords,
+      ...this.allChords,
+    ];
+  }
+
   constructor() {
     makeAutoObservable(this);
     this.allChords = createAllChords();
     this.allSongs = [];
-    this.song = this.createSampleSong();
-  }
-
-  createSampleSong() {
-    const sampleBar = new Bar([
-      new Chord('C'),
-      new Chord('Dm'),
-      new Chord('f#'),
-      new Chord('% '),
-    ]);
-    const sampleBar2 = new Bar([
-      new Chord('Amsus4'),
-      new Chord('C#'),
-    ]);
-    const sampleLine = new Line([ sampleBar, sampleBar2 ], 1);
-    return new Song(uuidv4(), "My song", [sampleLine], new Chord('A'), 80);
+    this.song = Song.empty();
   }
 
   setAllSongs(songs: Song[]) {
@@ -46,7 +40,7 @@ class ServiceStore {
   }
 
   createSong() {
-    this.setSong(new Song(uuidv4(), "My song", [], new Chord('C'), 80));
+    this.setSong(Song.empty());
   }
 
   setSong(song: Song) {
@@ -55,20 +49,7 @@ class ServiceStore {
   }
 
   updateScaleChords() {
-    const scaleChords = scaleChordLabels(this.song.scale).map(cl => {
-      const c = new Chord(cl);
-      c.inScale = true;
-      return c;
-    });
-    this.allChords.splice(2, scaleChords.length, ...scaleChords);
-
-    // this.allChords.forEach(c => c.inScale = scaleChords.includes(c.label));
-    // this.allChords[0].inScale = true;
-    // this.allChords[1].inScale = true;
-    // this.allChords = [
-    //   ...this.allChords.filter(c => c.inScale),
-    //   ...this.allChords.filter(c => !c.inScale),
-    // ];
+    this.scaleChords = scaleChordLabels(this.song.scale).map(cl => new Chord(cl, true));
   }
 
   showSongList() {

@@ -56,7 +56,7 @@ export const ChordBox = ({ chord, isScale }: ChordBoxProps) => {
         store.refresh();
       }}
       fullWidth
-      options={store.allChords}
+      options={store.optionChords}
       filterOptions={(options, params) => {
         params.inputValue = chord.label;
         return filter(options, params);

@@ -1,5 +1,6 @@
 import { Chord } from './chord';
 import { Line } from './line';
+import { v4 as uuidv4 } from 'uuid';
 
 export class Song {
 
@@ -15,6 +16,10 @@ export class Song {
     this.lines = lines;
     this.scale = scale;
     this.tempo = tempo;
+  }
+
+  static empty() {
+    return new Song(uuidv4(), "My song", [], new Chord(''), null);
   }
 
   transpose(up: boolean = true) {

@@ -41,7 +41,8 @@ export class Chord {
   parts: ChordPart[] = [];
   inScale: boolean = false;
 
-  constructor(label: string) {
+  constructor(label: string, inScale = false) {
+    this.inScale = inScale;
     this.reset(label);
   }
 
@@ -119,10 +120,7 @@ export class Chord {
 }
 
 export const createAllChords = () => {
-  const chords: Chord[] = [
-    new Chord('-'),
-    new Chord('%'),
-  ];
+  const chords: Chord[] = [];
   const types = ['', 'm', 'sus2', 'sus4', '7', 'M7', 'm7'];
   for (const [key,] of Object.entries(CHORD_BASE_INDEX)) {
     types.forEach(t => chords.push(new Chord(key + t)));
