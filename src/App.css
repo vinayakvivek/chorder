@@ -30,7 +30,9 @@
 }
 
 .song-lines-container {
-  height: 90%;
+  padding: 10px 0 70px 0;
+  /* height: 90%; */
+  max-height: 90%;
   overflow: auto;
   overflow-x: hidden;
 }
